@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: employee
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:13306/microservice
+    username: root
+    password: 123456789
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+server:
+  port: 9093
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

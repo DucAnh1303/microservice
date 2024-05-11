@@ -1,0 +1,5 @@
+rootProject.name = 'microservice'
+
+include 'auth'
+include 'data'
+include 'employee'

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: auth
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:13306/microservice
+    username: root
+    password: 123456789
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+server:
+  port: 9091
+
+jwt:
+  secret: secret_key_for_my_personal_e_commerce_project
+  expiration: 86400
