@@ -1,6 +1,13 @@
 spring:
   application:
     name: employee
+  kafka:
+#    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: my-group
+#      value-deserializer: com.ngoctuan.shipping.events.ShipmentDeserializer
+#      auto-offset-reset: earliest
+#      enable-auto-commit: false
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:

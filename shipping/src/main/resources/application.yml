@@ -1,0 +1,15 @@
+spring:
+  application:
+   name: shipping
+  kafka:
+    consumer:
+      group-id: my-topic
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+
+    listener:
+      ack-mode: MANUAL
+      missing-topics-fatal: false
+
+server:
+  port: 9095

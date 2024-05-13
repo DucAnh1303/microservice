@@ -26,6 +26,12 @@ public class GatewayConfig {
                 .route("employee", r -> r.path("/api/employee/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9093"))
+                .route("order", r -> r.path("/kafka/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:9094"))
+                .route("shipping", r -> r.path("/shipping/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:9095"))
                 .build();
     }
 }

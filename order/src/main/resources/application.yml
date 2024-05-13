@@ -1,0 +1,12 @@
+spring:
+  application:
+     name: order
+  kafka:
+    properties:
+      spring.json.add.type.headers: false
+    listener:
+      missing-topics-fatal: false
+
+
+server:
+  port: 9094
