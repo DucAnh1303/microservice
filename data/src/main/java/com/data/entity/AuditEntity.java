@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@Setter
 public class AuditEntity implements Serializable {
 
     @CreatedBy

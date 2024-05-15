@@ -22,11 +22,10 @@ public class GatewayConfig {
                 .route("auth", r -> r.path("/auth/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9091"))
-
                 .route("employee", r -> r.path("/api/employee/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9093"))
-                .route("order", r -> r.path("/kafka/**")
+                .route("order", r -> r.path("/order/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9094"))
                 .route("shipping", r -> r.path("/shipping/**")
