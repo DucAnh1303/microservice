@@ -17,3 +17,7 @@ server:
 jwt:
   secret: secret_key_for_my_personal_e_commerce_project
   expiration: 86400
+
+axon:
+  axonserver:
+    servers: localhost:8024
