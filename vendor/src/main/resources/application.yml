@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: vendor
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:13306/microservice
+    username: root
+    password: 123456789
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 9097
+
+redis:
+  hostname: localhost
+  port: 16379

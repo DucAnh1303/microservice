@@ -18,7 +18,6 @@ public class GatewayConfig {
                 .route("invoice-service", r -> r.path("/invoices/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:8084"))
-
                 .route("auth", r -> r.path("/auth/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9091"))
@@ -31,6 +30,9 @@ public class GatewayConfig {
                 .route("shipping", r -> r.path("/shipping/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9095"))
+                .route("vendor", r -> r.path("/vendor/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:9097"))
                 .build();
     }
 }
