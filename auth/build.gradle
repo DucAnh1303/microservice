@@ -12,6 +12,9 @@ java {
 	targetCompatibility = '17'
 }
 
+bootJar.enabled(false)
+jar.enabled(false)
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor

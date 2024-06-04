@@ -1,6 +1,5 @@
 package service.vendor.config.cache;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,7 +11,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 @Aspect
@@ -21,9 +19,10 @@ import java.util.concurrent.TimeUnit;
 public class CacheControllerAspect implements Serializable {
 
     @Autowired
-    private  RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
-    private final ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Around("@annotation(cacheController)")
     public Object cacheMethod(ProceedingJoinPoint joinPoint, CacheController cacheController) throws Throwable {
@@ -32,7 +31,6 @@ public class CacheControllerAspect implements Serializable {
 
         Object cachedValue = redisTemplate.opsForValue().get(key);
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        Method method = methodSignature.getMethod();
 
         if (cachedValue != null) {
             return cachedValue;
@@ -40,7 +38,7 @@ public class CacheControllerAspect implements Serializable {
 
         Object result = joinPoint.proceed();
 
-        redisTemplate.opsForValue().set(key,objectMapper.writeValueAsString(result), time, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key, result, time, TimeUnit.SECONDS);
 
         return result;
     }

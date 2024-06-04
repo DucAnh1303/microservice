@@ -8,10 +8,10 @@ public class ApiResponseGenerator {
         throw new UnsupportedOperationException();
     }
 
-    public static <T> ApiResponse<T>  res(final T body, final HttpStatus status) {
-        return new ApiResponse<>(body,status);
-    }
-    public static <T> ApiResponse<Pagination<T>>  res(Page<T> body, HttpStatus status) {
-        return new ApiResponse<>(new Pagination<>(body),status);
-    }
+//    public static <T> ApiResponse<T>  res(final T body, final HttpStatus status) {
+//        return new ApiResponse<>(body,status);
+//    }
+//    public static <T> ApiResponse<Pagination<T>>  res(Page<T> body, HttpStatus status) {
+//        return new ApiResponse<>(new Pagination<>(body),status);
+//    }
 }
