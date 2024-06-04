@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import service.vendor.common.ApiResponse;
 import service.vendor.common.ApiResponseGenerator;
 import service.vendor.common.Pagination;
+import service.vendor.config.cache.CacheController;
 import service.vendor.request.VendorRequest;
 import service.vendor.response.VendorResponse;
 import service.vendor.service.VendorService;
@@ -27,6 +28,7 @@ public class VendorController {
     private final VendorService service;
 
     @GetMapping
+    @CacheController(key = "vendor",time = 60)
     public ApiResponse<Pagination<VendorResponse>> getAll(
             @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable
                     pageable) {

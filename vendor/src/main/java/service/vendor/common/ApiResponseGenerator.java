@@ -8,9 +8,6 @@ public class ApiResponseGenerator {
         throw new UnsupportedOperationException();
     }
 
-    public static  ApiResponse<Void>  res(final HttpStatus status) {
-        return new ApiResponse<>(status);
-    }
     public static <T> ApiResponse<T>  res(final T body, final HttpStatus status) {
         return new ApiResponse<>(body,status);
     }
