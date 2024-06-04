@@ -1,7 +1,5 @@
-package service.vendor.entity;
+package service.vendor.response;
 
-import com.fasterxml.jackson.databind.annotation.EnumNaming;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,14 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "vendor")
 @Builder
-public class VendorEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class VendorResponse {
     private Long id;
-
     private String name;
     private String description;
     private String address;
