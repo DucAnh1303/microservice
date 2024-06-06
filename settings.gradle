@@ -1,9 +1,2 @@
 rootProject.name = 'microservice'
 
-include 'auth'
-include 'data'
-include 'employee'
-include 'order'
-include 'shipping'
-include 'discovery'
-include 'gateway'

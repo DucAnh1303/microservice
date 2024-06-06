@@ -32,8 +32,8 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     volumes:
-      - ./kafka/zookeeper_data:/var/lib/zookeeper/data
-      - ./kafka/zookeeper_log:/var/lib/zookeeper/log
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_log:/var/lib/zookeeper/log
     networks:
       - myNetwork
 
@@ -49,7 +49,7 @@ services:
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
     volumes:
-      - ./kafka:/bitnami/kafka
+      - kafka:/bitnami/kafka
     networks:
       - myNetwork
     depends_on:
@@ -75,3 +75,6 @@ volumes:
   axonserver-config:
   mysql-data:
   redis.conf:
+  kafka:
+  zookeeper_data:
+  zookeeper_log:

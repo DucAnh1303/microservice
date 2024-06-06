@@ -21,8 +21,8 @@ public class VendorServiceImpl implements VendorService {
     private final VendorRepository vendorRepository;
 
     @Override
-    public Page<VendorResponse> getAll(Pageable page) {
-        return vendorRepository.findAll(page).map(VendorResponseConverter::to);
+    public Page<VendorResponse> getAll(Pageable page,String name) {
+        return vendorRepository.findAll(name,page).map(VendorResponseConverter::to);
     }
 
     @Override

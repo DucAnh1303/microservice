@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import service.vendor.aop.CacheKey;
 import service.vendor.common.ApiResponse;
-import service.vendor.config.cache.CacheController;
-import service.vendor.config.cache.CacheEvictController;
+import service.vendor.aop.CacheData;
+import service.vendor.aop.CacheEvict;
 import service.vendor.request.VendorRequest;
 import service.vendor.response.VendorResponse;
 import service.vendor.service.VendorService;
@@ -27,11 +29,12 @@ public class VendorController {
     private final VendorService service;
 
     @GetMapping
-    @CacheController(key = "vendor", time = 60)
+    @CacheData(key = "vendor", time = 60)
     public ApiResponse<?> getAll(
             @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable
-                    pageable) {
-        Page<VendorResponse> data = service.getAll(pageable);
+                    pageable,
+            @CacheKey @RequestParam(value = "name",defaultValue = "") String name) {
+        Page<VendorResponse> data = service.getAll(pageable,name);
         return ApiResponse.res(data, HttpStatus.OK.value());
     }
 
@@ -41,7 +44,7 @@ public class VendorController {
     }
 
     @PostMapping
-    @CacheEvictController(key = "vendor")
+    @CacheEvict(key = "vendor")
     public ApiResponse<?> addData(@RequestBody VendorRequest request) {
         return ApiResponse.res(service.addVendor(request), HttpStatus.OK.value());
     }

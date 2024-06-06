@@ -8,7 +8,7 @@ import service.vendor.response.VendorResponse;
 
 public interface VendorService {
 
-    Page<VendorResponse> getAll(Pageable pageable);
+    Page<VendorResponse> getAll(Pageable pageable, String name);
 
     VendorResponse detail(Long id);
 
