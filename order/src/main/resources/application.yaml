@@ -1,0 +1,11 @@
+spring:
+  application:
+    name : order
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
+
+    producer-group1:
+      group-id: 'order-group-1'
+
