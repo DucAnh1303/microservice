@@ -5,17 +5,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "order_product")
+@Table(name = "shipping")
 public class ShippingEntity extends AuditEntity {
 
     @Id
@@ -26,5 +23,5 @@ public class ShippingEntity extends AuditEntity {
     private Integer productId;
     private Integer number;
     private String phone;
-    private Integer orderId;
+    private Long orderId;
 }

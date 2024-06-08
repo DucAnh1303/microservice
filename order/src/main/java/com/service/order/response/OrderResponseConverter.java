@@ -8,7 +8,7 @@ public class OrderResponseConverter {
 
     public static OrderResponse get(OrderEntity entity){
         return OrderResponse.builder()
-                .id(entity.getId())
+                .orderId(entity.getId())
                 .name(entity.getName())
                 .phone(entity.getPhone())
                 .address(entity.getAddress())

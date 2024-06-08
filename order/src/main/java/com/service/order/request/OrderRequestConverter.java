@@ -3,6 +3,8 @@ package com.service.order.request;
 import com.data.entity.OrderEntity;
 import lombok.experimental.UtilityClass;
 
+import java.time.LocalDateTime;
+
 @UtilityClass
 public class OrderRequestConverter {
 
@@ -13,6 +15,7 @@ public class OrderRequestConverter {
         set.setAddress(request.getAddress());
         set.setProductId(request.getProductId());
         set.setNumber(request.getNumber());
+        set.setCreatedDate(LocalDateTime.now());
         return set;
     }
 }

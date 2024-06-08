@@ -1,0 +1,24 @@
+server:
+  port: 9094
+
+spring:
+  application:
+    name : order
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://localhost:13306/microservice
+    username: root
+    password: 123456789
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  kafka:
+    bootstrap-servers: 'localhost:9092'
+
+
+    producer-group1:
+      group-id: 'order-group-1'

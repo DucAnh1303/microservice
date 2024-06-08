@@ -1,13 +1,15 @@
-package com.service.order.response;
+package com.service.shipping.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
 @Builder
-public class OrderResponse {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+public class ShippingRequest {
     private Long orderId;
     private String name;
     private String address;
