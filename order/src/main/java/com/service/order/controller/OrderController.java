@@ -1,5 +1,6 @@
 package com.service.order.controller;
 
+import com.service.order.config.SnakeRequestParam;
 import com.service.order.request.OrderRequest;
 import com.service.order.response.OrderResponse;
 import com.service.order.service.OrderService;
@@ -14,7 +15,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/add")
-    public OrderResponse addData(@RequestBody OrderRequest request){
+    public OrderResponse addData(@SnakeRequestParam OrderRequest request){
         return orderService.order(request);
     }
 }

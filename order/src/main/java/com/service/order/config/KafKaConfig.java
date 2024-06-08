@@ -9,6 +9,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class KafKaConfig {
 
 
     @Bean
-    public ProducerFactory<String, Object> producerFactory1() {
+    public ProducerFactory<String, String> producerFactory1() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -35,7 +36,7 @@ public class KafKaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Object> kafkaTemplate1() {
+    public KafkaTemplate<String, String> kafkaTemplate1() {
         return new KafkaTemplate<>(producerFactory1());
     }
 }

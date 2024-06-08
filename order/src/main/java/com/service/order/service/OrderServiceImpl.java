@@ -8,7 +8,6 @@ import com.service.order.request.OrderRequestConverter;
 import com.service.order.response.OrderResponse;
 import com.service.order.response.OrderResponseConverter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponse order(OrderRequest request) {
         OrderEntity add = repository.save(OrderRequestConverter.set(request));
-        message.sendNotifyOrder(add);
+        message.ReceiveOrderNotification(add);
         return OrderResponseConverter.get(add);
     }
 }

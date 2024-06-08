@@ -18,7 +18,5 @@ spring:
 
   kafka:
     bootstrap-servers: 'localhost:9092'
-
-
     producer-group1:
       group-id: 'order-group-1'
