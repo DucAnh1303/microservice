@@ -1,4 +1,4 @@
-package com.service.vendor.config;
+package com.service.vendor.service.impl;
 
 import com.service.vendor.response.AuthResponse;
 import lombok.NonNull;

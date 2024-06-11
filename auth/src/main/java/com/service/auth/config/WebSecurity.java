@@ -23,13 +23,13 @@ public class WebSecurity {
     @Bean
     protected SecurityFilterChain configure(final HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-             .cors(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
                         .anyRequest()
                         .authenticated())
-                .exceptionHandling(exp->exp.authenticationEntryPoint(authenticationEntryPoint));
+                .exceptionHandling(exp -> exp.authenticationEntryPoint(authenticationEntryPoint));
         return http.build();
     }
 
@@ -42,7 +42,5 @@ public class WebSecurity {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-
 
 }

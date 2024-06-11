@@ -1,39 +1,34 @@
 package com.service.vendor.security;
 
 import com.service.vendor.response.AuthResponse;
-import com.service.vendor.service.impl.UserDetailService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Component
+@RequiredArgsConstructor
+@Log4j2
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtUtil jwtUtil;
-    private final UserDetailService userDetailsService;
 
-    @Autowired
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailService userDetailsService) {
-        this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
-    }
+    private final JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         final String header = request.getHeader("Authorization");
         final String token;
-        final String userName;
 
         if (header == null || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
@@ -43,13 +38,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         token = header.substring(7);
 
         Claims claims = jwtUtil.getAllClaimsFromToken(token);
-        userName = claims.getSubject();
-        if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-            if (!jwtUtil.isInvalid(token)) {
-                var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        if (claims.getSubject() != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+            AuthResponse authResponse = jwtUtil.getAuthResponseFromToken(token);
+
+            if (!jwtUtil.isInvalid(token) && authResponse != null) {
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(authResponse, null, new ArrayList<>());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                logger.info("User authentication information is exactly");
             }
         }
         chain.doFilter(request, response);

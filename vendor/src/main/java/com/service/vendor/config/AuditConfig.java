@@ -1,5 +1,6 @@
 package com.service.vendor.config;
 
+import com.service.vendor.service.impl.AuthorizationLogin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
