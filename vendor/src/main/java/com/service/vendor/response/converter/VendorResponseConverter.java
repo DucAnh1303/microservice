@@ -1,8 +1,8 @@
 package com.service.vendor.response.converter;
 
-import com.service.vendor.entity.VendorEntity;
-import lombok.experimental.UtilityClass;
+import com.data.entity.VendorEntity;
 import com.service.vendor.response.VendorResponse;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class VendorResponseConverter {

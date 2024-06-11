@@ -17,3 +17,6 @@ server:
 redis:
   hostname: localhost
   port: 16379
+
+jwt:
+  secret: secret_key_for_my_personal_e_commerce_project

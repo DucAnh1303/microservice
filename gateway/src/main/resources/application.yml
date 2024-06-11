@@ -13,7 +13,7 @@ spring:
 jwt:
   secret: secret_key_for_my_personal_e_commerce_project
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka

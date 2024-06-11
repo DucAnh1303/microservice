@@ -48,6 +48,7 @@ public class CacheControllerAspect implements Serializable {
 
             ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();
             String source = opsForValue.get(cacheKey);
+
             if (Objects.nonNull(source)) {
                 return objectMapper.readValue(source, methodSignature.getReturnType());
             }

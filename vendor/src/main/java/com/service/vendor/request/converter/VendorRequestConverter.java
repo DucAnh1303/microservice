@@ -1,6 +1,6 @@
 package com.service.vendor.request.converter;
 
-import com.service.vendor.entity.VendorEntity;
+import com.data.entity.VendorEntity;
 import com.service.vendor.request.VendorRequest;
 import lombok.experimental.UtilityClass;
 

@@ -1,6 +1,6 @@
 package com.service.vendor.service.impl;
 
-import com.service.vendor.entity.VendorEntity;
+import com.data.entity.VendorEntity;
 import com.service.vendor.repository.VendorRepository;
 import com.service.vendor.request.VendorRequest;
 import com.service.vendor.request.converter.VendorRequestConverter;

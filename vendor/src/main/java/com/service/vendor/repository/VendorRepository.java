@@ -1,6 +1,6 @@
 package com.service.vendor.repository;
 
-import com.service.vendor.entity.VendorEntity;
+import com.data.entity.VendorEntity;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
