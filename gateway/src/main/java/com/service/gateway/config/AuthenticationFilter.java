@@ -1,6 +1,8 @@
 package com.service.gateway.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.jsonwebtoken.Claims;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -31,6 +33,7 @@ public class AuthenticationFilter implements GatewayFilter {
         this.jwtUtil = jwtUtil;
     }
 
+    @SneakyThrows
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -52,12 +55,14 @@ public class AuthenticationFilter implements GatewayFilter {
     }
 
     private Mono<Void> onError(ServerWebExchange exchange, HttpStatus httpStatus, String errorMessage) {
+
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(httpStatus);
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         response.getHeaders().set("charset", "UTF-8");
+
         try {
-            byte[] bytes = String.format("{ \"error\": \"%s\", \"message\": \"%s\" }", httpStatus.getReasonPhrase(), errorMessage).getBytes(StandardCharsets.UTF_8);
+            byte[] bytes = String.format("{ \"error\": \"%s\", \"message\": \"%s\" }", httpStatus, errorMessage).getBytes(StandardCharsets.UTF_8);
             DataBuffer buffer = response.bufferFactory().wrap(bytes);
             return response.writeWith(Mono.just(buffer)).doOnError(throwable -> DataBufferUtils.release(buffer));
         } catch (Exception e) {
@@ -73,7 +78,7 @@ public class AuthenticationFilter implements GatewayFilter {
         return !request.getHeaders().containsKey("Authorization");
     }
 
-    private void updateRequest(ServerWebExchange exchange, String token) {
+    private void updateRequest(ServerWebExchange exchange, String token) throws JsonProcessingException {
         Claims claims = jwtUtil.getAllClaimsFromToken(token);
         exchange.getRequest().mutate()
                 .header("Jwt", String.valueOf(claims.get("Jwt")))
