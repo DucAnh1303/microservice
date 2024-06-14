@@ -33,6 +33,9 @@ public class GatewayConfig {
                 .route("vendor", r -> r.path("/vendor/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9097"))
+                .route("image", r -> r.path("/file/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:9098"))
                 .build();
     }
 }
