@@ -1,8 +1,6 @@
 package com.service.gateway.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.jsonwebtoken.Claims;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -33,7 +31,6 @@ public class AuthenticationFilter implements GatewayFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    @SneakyThrows
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -45,7 +42,9 @@ public class AuthenticationFilter implements GatewayFilter {
 
             final String token = this.getAuthHeader(request).substring(7);
 
-            if (jwtUtil.isInvalid(token)) {
+            try {
+                jwtUtil.isInvalid(token);
+            } catch (Exception e) {
                 return this.onError(exchange, HttpStatus.FORBIDDEN, "User authentication information is forbidden");
             }
 
@@ -78,7 +77,7 @@ public class AuthenticationFilter implements GatewayFilter {
         return !request.getHeaders().containsKey("Authorization");
     }
 
-    private void updateRequest(ServerWebExchange exchange, String token) throws JsonProcessingException {
+    private void updateRequest(ServerWebExchange exchange, String token) {
         Claims claims = jwtUtil.getAllClaimsFromToken(token);
         exchange.getRequest().mutate()
                 .header("Jwt", String.valueOf(claims.get("Jwt")))
