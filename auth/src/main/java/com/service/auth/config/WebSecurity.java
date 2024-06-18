@@ -2,6 +2,7 @@ package com.service.auth.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +27,13 @@ public class WebSecurity {
                 .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers(
+                                "/auth/login",
+                                "/v2/api-docs",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/webjars/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .exceptionHandling(exp -> exp.authenticationEntryPoint(authenticationEntryPoint));
@@ -41,6 +48,16 @@ public class WebSecurity {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public FilterRegistrationBean<CorsConfig> corsFilterRegistration() {
+        FilterRegistrationBean<CorsConfig> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CorsConfig());
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setName("CorsConfig");
+        registrationBean.setOrder(1);
+        return registrationBean;
     }
 
 }

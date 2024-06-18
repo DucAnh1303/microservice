@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class CustomerExceptionHandler {
+
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<?> handleUnauthorizedException(UnauthorizedException ex) {
-        ErrorResponse exception = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+    public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex) {
+        ErrorResponse exception = new ErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage());
         return new ResponseEntity<>(exception, HttpStatus.UNAUTHORIZED);
     }
 }

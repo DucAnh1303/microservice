@@ -14,7 +14,8 @@ public class GatewayConfig {
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
-        return builder.routes()
+        return builder
+                .routes()
                 .route("invoice-service", r -> r.path("/invoices/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:8084"))
