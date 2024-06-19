@@ -1,4 +1,4 @@
-package com.service.auth.config;
+package com.service.vendor.config;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

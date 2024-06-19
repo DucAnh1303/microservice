@@ -17,3 +17,22 @@ jwt:
 #  client:
 #    service-url:
 #      defaultZone: http://localhost:8761/eureka
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+#  group-configs:
+#    - group: auth
+#      paths-to-match: /auth/**
+#    - group: employee
+#      paths-to-match: /api/employee/**
+#    - group: order
+#      paths-to-match: /order/**
+#    - group: shipping
+#      paths-to-match: /shipping/**
+#    - group: vendor
+#      paths-to-match: /vendor/**
+#    - group: image
+#      paths-to-match: /file/**

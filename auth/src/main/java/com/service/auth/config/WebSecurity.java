@@ -29,8 +29,8 @@ public class WebSecurity {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/login",
-                                "/v2/api-docs",
-                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html/**",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 "/webjars/**").permitAll()
@@ -56,7 +56,6 @@ public class WebSecurity {
         registrationBean.setFilter(new CorsConfig());
         registrationBean.addUrlPatterns("/*");
         registrationBean.setName("CorsConfig");
-        registrationBean.setOrder(1);
         return registrationBean;
     }
 

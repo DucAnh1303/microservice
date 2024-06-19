@@ -1,4 +1,4 @@
-package com.service.auth.config;
+package com.service.image.config;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

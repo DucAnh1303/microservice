@@ -1,7 +1,9 @@
 package com.service.vendor.security;
 
 
+import com.service.vendor.config.CorsConfig;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,5 +43,13 @@ public class WebSecurity {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    @Bean
+    public FilterRegistrationBean<CorsConfig> corsFilterRegistration() {
+        FilterRegistrationBean<CorsConfig> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CorsConfig());
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setName("CorsConfig");
+        return registrationBean;
+    }
 
 }
