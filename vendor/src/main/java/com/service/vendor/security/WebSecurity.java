@@ -29,9 +29,15 @@ public class WebSecurity {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest()
-                        .authenticated())
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers(
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**",
+                                        "/swagger-resources/**",
+                                        "/webjars/**").permitAll()
+                                .anyRequest()
+                                .authenticated())
                 .exceptionHandling(exp -> exp.authenticationEntryPoint(authenticationEntryPoint));
         http.addFilterAt(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

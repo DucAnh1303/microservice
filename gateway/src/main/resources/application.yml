@@ -20,19 +20,17 @@ jwt:
 
 springdoc:
   api-docs:
+    enabled: true
     path: /v3/api-docs
   swagger-ui:
+    enabled: true
     path: /swagger-ui.html
-#  group-configs:
-#    - group: auth
-#      paths-to-match: /auth/**
-#    - group: employee
-#      paths-to-match: /api/employee/**
-#    - group: order
-#      paths-to-match: /order/**
-#    - group: shipping
-#      paths-to-match: /shipping/**
-#    - group: vendor
-#      paths-to-match: /vendor/**
-#    - group: image
-#      paths-to-match: /file/**
+#    config-url: /v3/api-docs
+    urls:
+      - name: auth
+        url: http://localhost:9091/v3/api-docs
+      - name: employee
+        url: http://localhost:9093/v3/api-docs
+      - name: vendor
+        url: http://localhost:9097/v3/api-docs
+

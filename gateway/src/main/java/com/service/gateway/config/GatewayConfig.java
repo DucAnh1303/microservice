@@ -16,8 +16,6 @@ public class GatewayConfig {
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-//                .route("swagger-ui",r->r.path("/swagger-ui.html","/v3/api-docs")
-//                        .uri("http://localhost:9090"))
                 .route("auth", r -> r.path("/auth/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9091"))

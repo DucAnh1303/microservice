@@ -1,7 +1,9 @@
 package com.service.auth.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,8 +14,15 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Auth Api")
-                        .version("1.0")
-                        .description("API Auth with Spring Cloud Gateway and Swagger"));
+                        .title("Auth API")
+                        .version("3.0")
+                        .description("API Auth with Spring Cloud Gateway and Swagger")
+                        .contact(new Contact()
+                                .name("API Support")
+                                .url("http://example.com/contact")
+                                .email("support@example.com"))
+                        .license(new License()
+                                .name("Apache 2.0")
+                                .url("http://springdoc.org")));
     }
 }

@@ -20,3 +20,4 @@ redis:
 
 jwt:
   secret: secret_key_for_my_personal_e_commerce_project
+
