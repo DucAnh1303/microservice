@@ -8,15 +8,15 @@ public class ApiResponseGenerator {
         throw new UnsupportedOperationException();
     }
 
-    public static ApiResponse<Void> success(final HttpStatus status) {
-        return new ApiResponse<>(status);
+    public static BaseResponse<Void> success(final HttpStatus status) {
+        return new BaseResponse<>(status);
     }
 
-    public static <D> ApiResponse<D> success(final D data, final HttpStatus status) {
-        return new ApiResponse<>(data, status);
+    public static <D> BaseResponse<D> success(final D data, final HttpStatus status) {
+        return new BaseResponse<>(data, status);
     }
-    public static <D> ApiResponse<Page<D>> success(
+    public static <D> BaseResponse<Page<D>> success(
             final org.springframework.data.domain.Page<D> data, final HttpStatus status) {
-        return new ApiResponse<>(new Page<>(data), status);
+        return new BaseResponse<>(new Page<>(data), status);
     }
 }

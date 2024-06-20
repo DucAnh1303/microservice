@@ -6,13 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.io.Serializable;
+
 @Getter
-public class ApiResponse<B> extends ResponseEntity<B> implements Serializable {
-    public ApiResponse(final HttpStatus status) {
+public class BaseResponse<B> extends ResponseEntity<B> implements Serializable {
+    public BaseResponse(final HttpStatus status) {
         super(status);
     }
 
-    public ApiResponse(final B body, final HttpStatus status) {
+    public BaseResponse(final B body, final HttpStatus status) {
         super(body, status);
     }
 

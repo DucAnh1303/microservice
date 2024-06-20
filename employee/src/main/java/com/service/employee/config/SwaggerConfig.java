@@ -6,6 +6,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,6 +27,12 @@ public class SwaggerConfig {
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("http://springdoc.org")))
+                .addServersItem(new Server().url("http://localhost:9093")
+                        .description("local"))
+                .addServersItem(new Server().url("https://staging.company.com")
+                        .description("Staging server"))
+                .addServersItem(new Server().url("https://production.company.com")
+                        .description("Production server"))
                 .addSecurityItem(new SecurityRequirement().addList("Authentication"))
                 .components(new io.swagger.v3.oas.models.Components()
                         .addSecuritySchemes("Authentication", new SecurityScheme()
