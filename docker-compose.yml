@@ -10,6 +10,17 @@ services:
       - "13306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+  postgres:
+    image: postgres:latest
+    container_name: postgres-sql
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_DB: microservice
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 #  axon-server:
 #    image: axoniq/axonserver:latest
@@ -67,3 +78,4 @@ volumes:
   axonserver-config:
   mysql-data:
   redis.conf:
+  postgres_data:
