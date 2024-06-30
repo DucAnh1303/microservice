@@ -1,6 +1,5 @@
 package com.service.employee.web;
 
-import com.service.employee.common.SnackRequest;
 import com.service.employee.converter.EmployeeConverter;
 import com.service.employee.converter.EmployeeConverterRequest;
 import com.service.employee.domain.Employee;
@@ -13,9 +12,8 @@ import com.service.support.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,11 +29,11 @@ public class EmployeeController {
 
     @Operation(summary = "Get a list of employees", description = "Returns a paginated list of employees.")
     @ApiResponse(responseCode = "200", description = "Success")
-    @GetMapping
+//    @ApiResponse(responseCode = "400", ref = "NotFound")
+    @GetMapping()
     public BaseResponse<Page<EmployeeResponse>> browse(
-            @SnackRequest final EmployeeRequest request,
-            @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) final Pageable
-                    pageable) {
+            @ParameterObject final EmployeeRequest request,
+            @ParameterObject final Pageable pageable) {
 
         org.springframework.data.domain.Page<Employee> data =
                 searchUseCase.execute(EmployeeConverterRequest.to(request, pageable));

@@ -25,12 +25,6 @@ public class SwaggerConfig  {
                                 .email("support@example.com"))
                         .license(new License()
                                 .name("Apache 2.0")
-                                .url("http://springdoc.org")))
-                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
-                .components(new io.swagger.v3.oas.models.Components()
-                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")));
+                                .url("http://springdoc.org")));
     }
 }

@@ -24,3 +24,13 @@ server:
 
 jwt:
   secret: secret_key_for_my_personal_e_commerce_project
+
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /v3/api-docs
+  cache:
+    disabled: true

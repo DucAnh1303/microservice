@@ -14,6 +14,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.time.Duration;
 
 
 @RequiredArgsConstructor
@@ -31,8 +37,7 @@ public class WebSecurity {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                                 "/v3/api-docs/**",
-                                "/swagger-ui.html",
-                                "/swagger-ui/index.html",
+                                "/swagger-ui.html/**",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 "/webjars/**").permitAll()
@@ -57,5 +62,4 @@ public class WebSecurity {
         registrationBean.setName("CorsConfig");
         return registrationBean;
     }
-
 }

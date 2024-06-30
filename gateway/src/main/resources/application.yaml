@@ -9,7 +9,6 @@ spring:
       discovery:
         locator:
           enabled: true
-
 jwt:
   secret: secret_key_for_my_personal_e_commerce_project
 
@@ -25,7 +24,6 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
-#    config-url: /v3/api-docs
     urls:
       - name: auth
         url: http://localhost:9091/v3/api-docs
@@ -33,4 +31,6 @@ springdoc:
         url: http://localhost:9093/v3/api-docs
       - name: vendor
         url: http://localhost:9097/v3/api-docs
+  cache:
+    disabled: true
 

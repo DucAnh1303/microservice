@@ -1,6 +1,8 @@
 package com.service.employee.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -18,7 +20,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Employee API")
-                        .version("3.0")
+                        .version("1.0")
                         .description("API Employee with Spring Cloud Gateway and Swagger")
                         .contact(new Contact()
                                 .name("API Support")
@@ -29,9 +31,9 @@ public class SwaggerConfig {
                                 .url("http://springdoc.org")))
                 .addServersItem(new Server().url("http://localhost:9093")
                         .description("local"))
-                .addServersItem(new Server().url("https://staging.company.com")
+                .addServersItem(new Server().url("https://staging1111.company.com")
                         .description("Staging server"))
-                .addServersItem(new Server().url("https://production.company.com")
+                .addServersItem(new Server().url("https://production1111.company.com")
                         .description("Production server"))
                 .addSecurityItem(new SecurityRequirement().addList("Authentication"))
                 .components(new io.swagger.v3.oas.models.Components()
@@ -40,4 +42,5 @@ public class SwaggerConfig {
                                 .scheme("bearer")
                                 .bearerFormat("JWT")));
     }
+
 }
