@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: bath
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    mysql:
+      url: jdbc:mysql://localhost:13306/microservice
+      username: root
+      password: 123456789
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+  servlet:
+    multipart:
+      file-size-threshold: 2KB
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
+server:
+  port: 9099
+
+
+batch:
+  max-record: 5000

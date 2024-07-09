@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "com.service.syncdb.entities.postgres",
+        basePackages = "com.service.syncdb.entities",
         entityManagerFactoryRef = "postgresEntityManagerFactory",
         transactionManagerRef = "postgresTransactionManager"
 )
@@ -33,6 +33,8 @@ public class PostgreSQLConfig {
     String password;
     @Value("${spring.datasource.postgres.driver-class-name}")
     String driverClassName;
+
+
     @Bean(name = "postgresDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.postgres")
     public DataSource postgresDataSource() {
