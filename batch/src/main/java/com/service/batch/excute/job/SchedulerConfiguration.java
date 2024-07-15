@@ -21,7 +21,7 @@ public class SchedulerConfiguration {
     private Job job;
 
 
-    @Scheduled(fixedRate = 20000)
+    @Scheduled(cron = "${batch.cron}")
     public void scheduleJob() throws Exception {
         log.info("PartnerTransaction Job scheduler started to work");
         jobLauncher.run(job, new JobParametersBuilder()

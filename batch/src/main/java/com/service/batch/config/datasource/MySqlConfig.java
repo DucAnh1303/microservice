@@ -1,4 +1,4 @@
-package com.service.batch.config;
+package com.service.batch.config.datasource;
 
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -43,12 +43,7 @@ public class MySqlConfig {
     @Bean(name = "mysqlDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.mysql")
     public DataSource mysqlDataSource() {
-        return DataSourceBuilder.create()
-                .url(url)
-                .username(userName)
-                .password(password)
-                .driverClassName(driverClassName)
-                .build();
+        return DataSourceBuilder.create().url(url).username(userName).password(password).driverClassName(driverClassName).build();
     }
 
 
@@ -58,7 +53,7 @@ public class MySqlConfig {
             EntityManagerFactoryBuilder builder, @Qualifier("mysqlDataSource") DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .packages("com.service.batch.entities.mysql") // package contains entities for MySQL
+                .packages("com.service.batch.entities.mysql")
                 .persistenceUnit("mysqlUnit")
                 .build();
     }

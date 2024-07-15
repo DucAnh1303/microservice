@@ -33,6 +33,7 @@ ext {
 	jwtVersion = '0.11.5'
 	swaggerVersion = '2.1.0'
 	swaggerVersion2 = '2.5.0'
+	springBatch = '5.0.0'
 }
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'

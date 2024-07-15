@@ -24,6 +24,18 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+  cloud:
+    aws:
+      credentials:
+        access-key: AKIASAYNBK5GPTFRRRNN
+        secret-key: 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
+      region:
+        static: ap-southeast-2
+      bucket:
+        name: anhpd
+#      endpoint: https://anhpd.s3.ap-southeast-2.amazonaws.com
+
+
 
 server:
   port: 9099
@@ -31,3 +43,6 @@ server:
 
 batch:
   max-record: 5000
+  cron: 0 * */8 * * *
+
+
