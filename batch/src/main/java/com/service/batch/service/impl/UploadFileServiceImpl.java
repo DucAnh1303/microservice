@@ -43,7 +43,7 @@ public class UploadFileServiceImpl implements UploadService {
         File convertedFile = uploadFile(file);
         s3Client.putObject(new PutObjectRequest(buckets, fileName, convertedFile));
         convertedFile.delete();
-        log.info("File uploaded: " + fileName);
+        log.info("File uploaded: {}", fileName);
         return fileName;
     }
 
