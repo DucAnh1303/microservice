@@ -32,8 +32,8 @@ spring:
   cloud:
     aws:
       credentials:
-        access-key: ${ACS-KEY}
-        secret-key: ${SE-KEY}
+        access-key: ${ACS_KEY:}
+        secret-key: ${SE_KEY:}
       region:
         static: ap-southeast-2
       bucket:
