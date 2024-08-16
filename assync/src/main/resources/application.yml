@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: assync
+
+server:
+  port: 9099

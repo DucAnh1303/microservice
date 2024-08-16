@@ -11,3 +11,5 @@ include 'shipping'
 include 'image'
 include 'syncdb'
 include 'batch'
+include 'assync'
+
