@@ -35,15 +35,14 @@ public class AuthenticationFilter implements GatewayFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        if (routerValidator.isSecured.test(request)) {
+        if (!routerValidator.isSecured.test(request)) {
             if (this.isAuthMissing(request)) {
                 return this.onError(exchange, HttpStatus.UNAUTHORIZED, "User authentication information is incorrect");
             }
 
             final String token = this.getAuthHeader(request).substring(7);
-
             try {
-                jwtUtil.isInvalid(token);
+                jwtUtil.validateToken(token);
             } catch (Exception e) {
                 return this.onError(exchange, HttpStatus.FORBIDDEN, "User authentication information is forbidden");
             }

@@ -23,15 +23,17 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public Claims getAllClaimsFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+
+    public boolean validateToken(String token) {
+        return this.isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
         return this.getAllClaimsFromToken(token).getExpiration().before(new Date());
     }
 
-    public boolean isInvalid(String token) {
-        return this.isTokenExpired(token);
+    public Claims getAllClaimsFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
+
 }
