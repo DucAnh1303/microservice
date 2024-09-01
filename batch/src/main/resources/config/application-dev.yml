@@ -1,8 +1,8 @@
 spring:
   application:
     name: bath
-#  main:
-#    allow-bean-definition-overriding: true
+  #  main:
+  #    allow-bean-definition-overriding: true
   jpa:
     hibernate:
       ddl-auto: update
@@ -31,14 +31,17 @@ spring:
 
   cloud:
     aws:
-      credentials:
-        access-key: ${ACS_KEY:}
-        secret-key: ${SE_KEY:}
       region:
         static: ap-southeast-2
+      credentials:
+        access-key: ${ACCESS-KEY}
+        secret-key: ${SECRET-KEY}
+      s3:
+        endpoint: ${AWS_S3_URL:https://anhpd}
+        region: ap-southeast-2
+        enabled: true
       bucket:
         name: anhpd
-#      endpoint: https://anhpd.s3.ap-southeast-2.amazonaws.com
 
 server:
   port: 9099

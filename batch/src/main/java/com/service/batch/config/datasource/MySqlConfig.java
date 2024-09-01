@@ -26,7 +26,7 @@ import javax.sql.DataSource;
         entityManagerFactoryRef = "mysqlEntityManagerFactory",
         transactionManagerRef = "mysqlTransactionManager"
 )
-@EntityScan("com.service.batch.entities.mysql")
+//@EntityScan("com.service.batch.entities.mysql")
 @RequiredArgsConstructor
 public class MySqlConfig {
 

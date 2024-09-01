@@ -1,6 +1,6 @@
 spring:
   application:
-    name: syncdb
+    name: syncdbo
   datasource:
     mysql:
       url: jdbc:mysql://localhost:13306/microservice

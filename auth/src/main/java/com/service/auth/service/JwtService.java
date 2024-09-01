@@ -1,5 +1,6 @@
 package com.service.auth.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.auth.response.AuthResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

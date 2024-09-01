@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class EnvConfig {
-
-    @Bean
-    public Dotenv dotenv() {
-        return Dotenv.load();
-    }
+//
+//    @Bean
+//    public Dotenv dotenv() {
+//        return Dotenv.load();
+//    }
 
 
 }

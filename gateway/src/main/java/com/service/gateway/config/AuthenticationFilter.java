@@ -35,7 +35,7 @@ public class AuthenticationFilter implements GatewayFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
-        if (!routerValidator.isSecured.test(request)) {
+        if (routerValidator.isSecured.test(request)) {
             if (this.isAuthMissing(request)) {
                 return this.onError(exchange, HttpStatus.UNAUTHORIZED, "User authentication information is incorrect");
             }

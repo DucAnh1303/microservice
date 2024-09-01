@@ -47,7 +47,7 @@ public class UploadFileServiceImpl implements UploadService {
         return fileName;
     }
 
-    public File uploadFile(MultipartFile file) {
+    private File uploadFile(MultipartFile file) {
         File convertFile = new File(System.currentTimeMillis() + "_" + file.getOriginalFilename());
         try (FileOutputStream fos = new FileOutputStream(convertFile)) {
             fos.write(file.getBytes());

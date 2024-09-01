@@ -21,14 +21,15 @@ public class WebSecurity {
 
     private final DelegatedAuthenticationEntryPoint authenticationEntryPoint;
 
+
     @Bean
     protected SecurityFilterChain configure(final HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/login",
+                                "/auth/refresh-token",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
@@ -36,6 +37,7 @@ public class WebSecurity {
                                 "/webjars/**").permitAll()
                         .anyRequest()
                         .authenticated())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exp -> exp.authenticationEntryPoint(authenticationEntryPoint));
         return http.build();
     }

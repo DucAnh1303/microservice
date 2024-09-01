@@ -10,6 +10,9 @@ version = '0.0.1-SNAPSHOT'
 bootJar.enabled(true)
 jar.enabled(false)
 
+ext {
+    set('springBatch', "5.0.0")
+}
 
 repositories {
     mavenCentral()
@@ -18,26 +21,27 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation  group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.5'
-    implementation("org.springframework.batch:spring-batch-core:${springBatch}")
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
+    implementation "org.springframework.batch:spring-batch-core:${springBatch}"
     implementation 'org.springframework.boot:spring-boot-starter-batch'
-    implementation 'io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0'
-    implementation 'io.awspring.cloud:spring-cloud-aws-starter:3.1.0'
-
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'org.postgresql:postgresql'
-
-    annotationProcessor 'org.projectlombok:lombok'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'io.projectreactor:reactor-test'
-    testImplementation("org.springframework.batch:spring-batch-test:${springBatch}")
+    implementation platform('io.awspring.cloud:spring-cloud-aws-dependencies:3.0.1')
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-secrets-manager:3.0.1'
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.0.1'
     implementation 'software.amazon.awssdk:s3:2.25.40'
     implementation 'com.amazonaws:aws-java-sdk-core:1.12.748'
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.529')
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation "org.springframework.batch:spring-batch-test:${springBatch}"
 }

@@ -22,21 +22,23 @@ public class AuthService {
     private final AuthRepository authRepository;
 
     public AuthGenJwtResponse login(AuthRequest authRequest) {
-        AuthResponse response = authRepository.findByName(authRequest.getName())
-                .map(AuthResConverter::from).orElseThrow(ResolutionException::new);
-        String token = jwtService.generate(response, TypeJwt.ACCESS.name());
-        String refreshToken = jwtService.generate(response, TypeJwt.REFRESH.name());
-        return AuthGenJwtConverter.from(token, refreshToken);
+
+        return getJwt(authRequest.getName());
     }
 
     public AuthGenJwtResponse refreshToken(String refreshToken) {
+
         if (jwtService.isTokenExpired(refreshToken)) {
             throw new TokenExpiredException();
         }
         String userName = jwtService.getToken(refreshToken);
+        return getJwt(userName);
+    }
+
+    private AuthGenJwtResponse getJwt(String userName) {
+
         AuthResponse response = authRepository.findByName(userName)
                 .map(AuthResConverter::from).orElseThrow(ResolutionException::new);
-
         String token = jwtService.generate(response, TypeJwt.ACCESS.name());
         String newRefreshToken = jwtService.generate(response, TypeJwt.REFRESH.name());
         return AuthGenJwtConverter.from(token, newRefreshToken);

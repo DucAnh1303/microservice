@@ -18,7 +18,7 @@ public class GatewayConfig {
                 .routes()
                 .route("swagger-route", r -> r.path("/swagger-ui/**")
                         .uri("http://localhost:9090/webjars/swagger-ui/index.html"))
-                .route("auth", r -> r.path("/auth/**")
+                .route("auth", r -> r.path("/auth/login", "/auth/refresh-token")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9091"))
                 .route("employee", r -> r.path("/api/employee/**")
@@ -36,6 +36,10 @@ public class GatewayConfig {
                 .route("image", r -> r.path("/file/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9098"))
+                .route("batch", r -> r.path("/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:9099"))
                 .build();
     }
+
 }
