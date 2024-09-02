@@ -26,7 +26,7 @@ import java.util.Date;
 @Slf4j
 public class UploadFileServiceImpl implements UploadService {
 
-    @Value("${spring.cloud.aws.bucket.name}")
+    @Value("${spring.cloud.aws.s3.bucket}")
     private String buckets;
 
     @Autowired

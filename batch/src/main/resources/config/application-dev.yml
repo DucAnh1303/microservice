@@ -33,19 +33,15 @@ spring:
   cloud:
     aws:
       region:
-        static: ap-southeast-2
-      credentials:
-        access-key: ${ACCESS-KEY}
-        secret-key: ${SECRET-KEY}
+        static: ap-northeast-2
       s3:
-        endpoint: ${AWS_S3_URL:https://anhpd}
+        endpoint: ${AWS_S3_URL:https://anhpd.s3.ap-southeast-2.amazonaws.com}
         region: ap-southeast-2
+        bucket: anhpd
         enabled: true
-      bucket:
-        name: anhpd
-
 server:
   port: 9099
+  forward-headers-strategy: framework
 
 
 batch:
