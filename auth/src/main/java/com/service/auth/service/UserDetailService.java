@@ -23,7 +23,7 @@ public class UserDetailService implements UserDetailsService {
 
         Optional<AuthEntity> auth = authRepository.findByName(username);
         if (auth.isEmpty()) {
-            throw new UsernameNotFoundException("User or password is not valid");
+            throw new UsernameNotFoundException("User name is not valid");
         }
         return new User(auth.get().getName(),auth.get().getPassword(),new ArrayList<>());
     }

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurity {
 
     private final DelegatedAuthenticationEntryPoint authenticationEntryPoint;
-
+    private final CustomAuthenticationFailureHandler authenticationFailureHandler;
 
     @Bean
     protected SecurityFilterChain configure(final HttpSecurity http) throws Exception {
@@ -39,6 +40,11 @@ public class WebSecurity {
                         .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exp -> exp.authenticationEntryPoint(authenticationEntryPoint));
+        http.addFilterBefore(new UsernamePasswordAuthenticationFilter() {
+            {
+                setAuthenticationFailureHandler(authenticationFailureHandler);
+            }
+        }, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

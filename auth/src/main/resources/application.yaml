@@ -16,7 +16,8 @@ server:
 
 jwt:
   secret: secret_key_for_my_personal_e_commerce_project
-  expiration: 86400
+  expiration: 3600000
+  expiration-refresh: 3900000
 
 #axon:
 #  axonserver:
