@@ -21,7 +21,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurity {
 
     private final DelegatedAuthenticationEntryPoint authenticationEntryPoint;
-    private final CustomAuthenticationFailureHandler authenticationFailureHandler;
 
     @Bean
     protected SecurityFilterChain configure(final HttpSecurity http) throws Exception {
@@ -40,11 +39,6 @@ public class WebSecurity {
                         .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exp -> exp.authenticationEntryPoint(authenticationEntryPoint));
-        http.addFilterBefore(new UsernamePasswordAuthenticationFilter() {
-            {
-                setAuthenticationFailureHandler(authenticationFailureHandler);
-            }
-        }, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

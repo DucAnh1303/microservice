@@ -23,7 +23,7 @@ server:
   port: 9093
 
 jwt:
-  secret: secret_key_for_my_personal_e_commerce_project
+  secret: secretPD*!@#$$$$$$$$$123131231eeee@@@##$!$!%$^$%&*%^*$%^@$%
 
 
 springdoc:

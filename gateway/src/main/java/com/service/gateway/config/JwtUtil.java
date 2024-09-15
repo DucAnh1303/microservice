@@ -15,14 +15,12 @@ public class JwtUtil {
 
     @Value("${jwt.secret}")
     private String secret;
-
     private Key key;
 
     @PostConstruct
     public void init() {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
-
 
     public boolean validateToken(String token) {
         return this.isTokenExpired(token);

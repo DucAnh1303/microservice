@@ -15,7 +15,7 @@ server:
   port: 9091
 
 jwt:
-  secret: secret_key_for_my_personal_e_commerce_project
+  secret: secretPD*!@#$$$$$$$$$123131231eeee@@@##$!$!%$^$%&*%^*$%^@$%
   expiration: 3600000
   expiration-refresh: 3900000
 

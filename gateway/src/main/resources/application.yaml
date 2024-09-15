@@ -10,7 +10,7 @@ spring:
         locator:
           enabled: true
 jwt:
-  secret: secret_key_for_my_personal_e_commerce_project
+  secret: secretPD*!@#$$$$$$$$$123131231eeee@@@##$!$!%$^$%&*%^*$%^@$%
 
 #eureka:
 #  client:
