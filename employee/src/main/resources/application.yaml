@@ -23,7 +23,7 @@ server:
   port: 9093
 
 jwt:
-  secret: secretPD*!@#$$$$$$$$$123131231eeee@@@##$!$!%$^$%&*%^*$%^@$%
+  secret: VGhpc19pc19zZWNyZXRfa2V5X3ZhbGlkX3Rva2VuX2Zvcl9wcm9qZWN0
 
 
 springdoc:

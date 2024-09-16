@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 @Component
@@ -25,6 +26,6 @@ public class UserDetailService implements UserDetailsService {
         if (auth.isEmpty()) {
             throw new UsernameNotFoundException("User name is not valid");
         }
-        return new User(auth.get().getName(),auth.get().getPassword(),new ArrayList<>());
+        return new User(auth.get().getName(),auth.get().getPassword(), Collections.emptyList());
     }
 }

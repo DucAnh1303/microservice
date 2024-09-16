@@ -1,6 +1,7 @@
 package com.service.auth.controller;
 
 import com.service.auth.request.AuthRequest;
+import com.service.auth.response.AuthGenJwtResponse;
 import com.service.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,12 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<AuthGenJwtResponse> login(@RequestBody AuthRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(@RequestParam("refresh") String refreshToken) {
+    public ResponseEntity<AuthGenJwtResponse> refreshToken(@RequestParam("refresh") String refreshToken) {
         return ResponseEntity.ok(authService.refreshToken(refreshToken));
     }
 }

@@ -4,12 +4,13 @@ import com.service.auth.response.AuthResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,17 +27,14 @@ public class JwtFilter {
     @Value("${jwt.expiration-refresh}")
     private long expirationTimeRefresh;
 
-    private Key key;
-
-    @PostConstruct
-    public void init() {
-        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    public Key getKey() {
+        byte[] keyBytes= Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
-
 
     // get username
     public String getToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     // get token
@@ -49,23 +47,25 @@ public class JwtFilter {
 
     private String doGenerateToken(Map<String, Object> claims, String username, String type) {
 
-        long expirationTimeLong = 0;
-        if ("REFRESH".equals(type)) {
-            expirationTimeLong = expirationTimeRefresh;
-        }
-        if ("ACCESS".equals(type)) {
-            expirationTimeLong = expirationTime;
-        }
+        long expirationTimeLong = getExpirationTime(type);
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expirationTimeLong);
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
+                .setIssuer("microservice")
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    private long getExpirationTime(String type) {
+        if ("REFRESH" .equals(type)) {
+            return expirationTimeRefresh;
+        }
+        return expirationTime; // Default to access token expiration
     }
 
     // check time token expire
@@ -80,6 +80,6 @@ public class JwtFilter {
 
 
     public Claims getClaimsFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(secret.getBytes(StandardCharsets.UTF_8)).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
     }
 }
