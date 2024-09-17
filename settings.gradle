@@ -10,4 +10,5 @@ include 'shipping'
 include 'syncdb'
 include 'batch'
 include 'assync'
+include 'elasticsearch'
 

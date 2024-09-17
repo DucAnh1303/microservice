@@ -74,11 +74,45 @@ services:
       - redis.conf:/usr/local/etc/redis/redis.conf
     ports:
       - "16379:6379"
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch-node
+      - cluster.name=docker-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:8.9.0
+#    container_name: kibana
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#    ports:
+#      - "5601:5601"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - elastic
+
 networks:
   axon-network:
     driver: bridge
   myNetwork:
     driver: bridge
+  elasticsearch:
+    driver: elastic
 
 volumes:
   axonserver-data:
