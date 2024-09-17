@@ -4,13 +4,12 @@ import com.service.auth.response.AuthResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,14 +26,16 @@ public class JwtFilter {
     @Value("${jwt.expiration-refresh}")
     private long expirationTimeRefresh;
 
-    public Key getKey() {
-        byte[] keyBytes= Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     // get username
     public String getToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder().setSigningKey(this.key).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     // get token
@@ -57,7 +58,7 @@ public class JwtFilter {
                 .setIssuer("microservice")
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
-                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .signWith(this.key,SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -80,6 +81,6 @@ public class JwtFilter {
 
 
     public Claims getClaimsFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(this.key).build().parseClaimsJws(token).getBody();
     }
 }

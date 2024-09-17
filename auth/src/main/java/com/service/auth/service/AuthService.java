@@ -30,9 +30,10 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final UserDetailsService userDetailsService;
+
 
     public AuthGenJwtResponse login(AuthRequest authRequest) {
-
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
             return getJwtFilter(authRequest.getName());
@@ -51,8 +52,8 @@ public class AuthService {
     }
 
     private AuthGenJwtResponse getJwtFilter(String userName) {
-
-        AuthResponse response = authRepository.findByName(userName)
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+        AuthResponse response = authRepository.findByName(userDetails.getUsername())
                 .map(AuthResConverter::from).orElseThrow(ResolutionException::new);
         String token = jwtFilter.generate(response, TypeJwt.ACCESS.name());
         String newRefreshToken = jwtFilter.generate(response, TypeJwt.REFRESH.name());

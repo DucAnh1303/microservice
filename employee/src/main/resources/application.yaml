@@ -23,7 +23,7 @@ server:
   port: 9093
 
 jwt:
-  secret: VGhpc19pc19zZWNyZXRfa2V5X3ZhbGlkX3Rva2VuX2Zvcl9wcm9qZWN0
+  secret: anhpd_130398_!@#$!@#!!!123_api_config_authentication
 
 
 springdoc:

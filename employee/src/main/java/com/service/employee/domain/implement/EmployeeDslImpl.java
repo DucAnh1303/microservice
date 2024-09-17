@@ -22,7 +22,6 @@ public class EmployeeDslImpl extends BaseQueryDsl implements EmployeeDslReposito
         super(EmployeeEntity.class);
     }
 
-
     @Override
     public Page<EmployeeEntity> search(EmployeePredicate predicate, Pageable pageable) {
         JPQLQuery<EmployeeEntity> query =
