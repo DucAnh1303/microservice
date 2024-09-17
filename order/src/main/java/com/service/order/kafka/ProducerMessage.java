@@ -17,9 +17,10 @@ public class ProducerMessage {
 
     public void ReceiveOrderNotification(OrderEntity order) {
         try {
+            System.out.println("message success !");
             message.send("order", objectMapper.writeValueAsString(OrderResponseConverter.get(order)));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

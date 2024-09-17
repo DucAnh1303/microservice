@@ -23,6 +23,7 @@ public class BatchWriter implements ItemWriter<ListBatch>, StepExecutionListener
     public void write(Chunk<? extends ListBatch> chunk) {
         chunk.forEach(data -> {
             update(data.getResponseList());
+            // TODO, Data storage
 //            data.getFileHistory().setStatus(StatusFileHistory.MIGRATED);
 //            fileHistoryRepository.save(data.getFileHistory());
             log.info("file {} is migrated", "success");
