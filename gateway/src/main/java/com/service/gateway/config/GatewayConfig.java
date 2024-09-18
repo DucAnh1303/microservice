@@ -26,7 +26,10 @@ public class GatewayConfig {
                         .uri("http://localhost:9093"))
                 .route("order", r -> r.path("/order/**")
                         .filters(f -> f.filter(filter))
-                        .uri("http://localhost:9094"))
+                        .uri("http://localhost:9094")).
+                route("elasticsearch", r -> r.path("/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("http://localhost:9096"))
                 .route("shipping", r -> r.path("/shipping/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9095"))

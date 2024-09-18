@@ -45,8 +45,8 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     volumes:
-      - ./kafka/zookeeper_data:/var/lib/zookeeper/data
-      - ./kafka/zookeeper_log:/var/lib/zookeeper/log
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_log:/var/lib/zookeeper/log
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -63,8 +63,8 @@ services:
     depends_on:
       - zookeeper
     volumes:
-      - ./kafka/kafka_data:/var/lib/kafka/data
-      - ./kafka/kafka_log:/var/lib/kafka/log
+      - kafka_data:/var/lib/kafka/data
+      - kafka_log:/var/lib/kafka/log
 
   redis:
     image: redis:latest
@@ -75,6 +75,7 @@ services:
     ports:
       - "16379:6379"
 
+#  docker exec -it elasticsearch bin/elasticsearch-reset-password -u elastic reset password elasticsearch
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
     container_name: elasticsearch
@@ -82,37 +83,47 @@ services:
       - node.name=elasticsearch-node
       - cluster.name=docker-cluster
       - discovery.type=single-node
-      - bootstrap.memory_lock=true
+      - bootstrap.memory_lock=false
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+#      - xpack.security.http.ssl.keystore.path=certs/http.12
+#      - xpack.security.transport.ssl.verification_mode= certificate
+#      - xpack.security.transport.ssl.keystore.path=certs/transport.12
+#      - xpack.security.transport.ssl.truststore.path=certs/transport.12
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - ./elasticsearch_data:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
       - "9300:9300"
+    networks:
+      - elastic
 
-#  kibana:
-#    image: docker.elastic.co/kibana/kibana:8.9.0
-#    container_name: kibana
-#    environment:
-#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-#    ports:
-#      - "5601:5601"
-#    depends_on:
-#      - elasticsearch
-#    networks:
-#      - elastic
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.9.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic
 
 networks:
   axon-network:
     driver: bridge
   myNetwork:
     driver: bridge
-  elasticsearch:
-    driver: elastic
+  elastic:
+    driver: bridge
 
 volumes:
   axonserver-data:
@@ -121,3 +132,8 @@ volumes:
   mysql-data:
   redis.conf:
   postgres_data:
+  elasticsearch_data:
+  kafka_data:
+  kafka_log:
+  zookeeper_data:
+  zookeeper_log:

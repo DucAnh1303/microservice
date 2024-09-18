@@ -1,9 +1,9 @@
 package com.service.elasticsearch.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.elasticsearch.common.ExceptionResponse;
 import com.service.elasticsearch.response.AuthResponse;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.impl.DefaultJwtParserBuilder;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Date;
 
 @Component
 public class JwtUtil {
@@ -27,8 +26,7 @@ public class JwtUtil {
     }
 
     public Claims getAllClaimsFromToken(String token) {
-        DefaultJwtParserBuilder defaultJwtParserBuilder = new DefaultJwtParserBuilder();
-        return defaultJwtParserBuilder.setSigningKey(this.key).build().parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(this.key).build().parseClaimsJws(token).getBody();
     }
 
     public <T> T getClaimFromToken(String token, String claimKey, Class<T> clazz) {
@@ -43,7 +41,12 @@ public class JwtUtil {
     }
 
     public boolean isTokenExpired(String token) {
-        return this.getAllClaimsFromToken(token).getExpiration().before(new Date());
+        try {
+            Jwts.parserBuilder().setSigningKey(this.key).build().parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | IllegalArgumentException ex) {
+            throw new ExceptionResponse(401, ex.getMessage());
+        }
     }
 
 }

@@ -24,6 +24,7 @@ public class SecurityConfig {
 
     private final JwtFilterAuthentication jwtFilterAuthentication;
     private final DelegatedAuthenticationEntryPoint delegatedAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     protected SecurityFilterChain configure(final HttpSecurity http) throws Exception {
@@ -31,7 +32,11 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(delegatedAuthenticationEntryPoint));
+                .exceptionHandling(exception ->
+                {
+                    exception.authenticationEntryPoint(delegatedAuthenticationEntryPoint);
+                    exception.accessDeniedHandler(customAccessDeniedHandler);
+                });
         http.addFilterAt(jwtFilterAuthentication, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
