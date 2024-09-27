@@ -2,6 +2,7 @@ package com.service.elasticsearch.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.elasticsearch.common.ExceptionResponse;
+import com.service.elasticsearch.config.exception.AuthenticationExceptionHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,6 @@ public class DelegatedAuthenticationEntryPoint implements AuthenticationEntryPoi
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        String header = request.getHeader("Authorization");
-
-        if (header == null || !header.startsWith("Bearer ")) {
-            throw new ExceptionResponse(401,"Authorization header is incorrect");
-        }
         String jsonResponse = objectMapper.writeValueAsString(authException.getMessage());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");

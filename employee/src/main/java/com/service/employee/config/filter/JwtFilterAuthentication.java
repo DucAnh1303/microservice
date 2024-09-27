@@ -8,13 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -56,16 +54,9 @@ public class JwtFilterAuthentication extends OncePerRequestFilter {
                 if (!jwtUtil.isTokenExpired(token)) {
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(userDetails, null, Collections.emptyList());
-//                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
                     securityContext.setAuthentication(authentication);
                     SecurityContextHolder.setContext(securityContext);
-                    Authentication authentication1 = securityContext.getAuthentication();
-                    if (authentication1 == null) {
-                        System.out.println("Authentication is null, user is not authenticated.");
-                    } else {
-                        System.out.println("User is authenticated: " + authentication1.getName());
-                    }
                 }
             }
         } catch (AuthenticationException e) {

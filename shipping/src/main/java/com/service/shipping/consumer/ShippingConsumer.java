@@ -17,7 +17,7 @@ public class ShippingConsumer {
     private final ObjectMapper objectMapper;
     private final ShippingService service;
 
-    @KafkaListener(topics = "order", groupId ="${spring.kafka.consumer-group1.group-id}")
+    @KafkaListener(topics ="order", groupId ="${spring.kafka.consumer-1.group-id}")
     public void noticeShipping(String message) throws JsonProcessingException {
         ShippingRequest orderReceipt = objectMapper.readValue(message, ShippingRequest.class);
         ShippingResponse response = service.orderReceipt(orderReceipt);

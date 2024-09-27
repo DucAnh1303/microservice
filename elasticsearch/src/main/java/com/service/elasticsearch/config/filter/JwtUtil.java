@@ -2,6 +2,7 @@ package com.service.elasticsearch.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.elasticsearch.common.ExceptionResponse;
+import com.service.elasticsearch.config.exception.AuthenticationExceptionHandler;
 import com.service.elasticsearch.response.AuthResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -45,7 +46,7 @@ public class JwtUtil {
             Jwts.parserBuilder().setSigningKey(this.key).build().parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | IllegalArgumentException ex) {
-            throw new ExceptionResponse(401, ex.getMessage());
+            throw new AuthenticationExceptionHandler(ex.getMessage());
         }
     }
 

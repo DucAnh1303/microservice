@@ -2,7 +2,7 @@ package com.service.elasticsearch.service;
 
 import com.service.elasticsearch.common.BaseResponse;
 import com.service.elasticsearch.converter.UseCaseCommand;
-import com.service.elasticsearch.entitties.ElasProductEntity;
+import com.service.elasticsearch.sqlindex.ElasProductEntity;
 import com.service.elasticsearch.repository.elastic.ProductRepository;
 import com.service.elasticsearch.request.PageCommon;
 import com.service.elasticsearch.request.ProductRequest;

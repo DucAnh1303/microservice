@@ -1,6 +1,6 @@
 package com.service.elasticsearch.repository.elastic;
 
-import com.service.elasticsearch.entitties.ElasProductEntity;
+import com.service.elasticsearch.sqlindex.ElasProductEntity;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 

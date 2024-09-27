@@ -59,7 +59,7 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 5
     depends_on:
       - zookeeper
     volumes:
@@ -75,7 +75,7 @@ services:
     ports:
       - "16379:6379"
 
-#  docker exec -it elasticsearch bin/elasticsearch-reset-password -u elastic reset password elasticsearch
+  #  docker exec -it elasticsearch bin/elasticsearch-reset-password -u elastic reset password elasticsearch
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
     container_name: elasticsearch
@@ -89,10 +89,10 @@ services:
       - xpack.security.enrollment.enabled=false
       - xpack.security.transport.ssl.enabled=false
       - xpack.security.http.ssl.enabled=false
-#      - xpack.security.http.ssl.keystore.path=certs/http.12
-#      - xpack.security.transport.ssl.verification_mode= certificate
-#      - xpack.security.transport.ssl.keystore.path=certs/transport.12
-#      - xpack.security.transport.ssl.truststore.path=certs/transport.12
+    #      - xpack.security.http.ssl.keystore.path=certs/http.12
+    #      - xpack.security.transport.ssl.verification_mode= certificate
+    #      - xpack.security.transport.ssl.keystore.path=certs/transport.12
+    #      - xpack.security.transport.ssl.truststore.path=certs/transport.12
     ulimits:
       memlock:
         soft: -1

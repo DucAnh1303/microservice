@@ -17,6 +17,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   kafka:
-    bootstrap-servers: 'localhost:9092'
+    bootstrap-servers: localhost:9092
     producer-group1:
-      group-id: 'order-group-1'
+      group-id: 'order-group'

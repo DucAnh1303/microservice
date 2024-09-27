@@ -1,6 +1,7 @@
 package com.service.elasticsearch.config.filter;
 
 import com.service.elasticsearch.common.ExceptionResponse;
+import com.service.elasticsearch.config.exception.AuthenticationExceptionHandler;
 import com.service.elasticsearch.response.AuthResponse;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -40,7 +41,7 @@ public class JwtFilterAuthentication extends OncePerRequestFilter {
         final String userName;
 
         if (header == null || !header.startsWith("Bearer ")) {
-            throw new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(), "Authorization header is incorrect");
+            throw new AuthenticationExceptionHandler("Authorization header is incorrect");
         }
 
         token = header.substring(7);
@@ -53,7 +54,6 @@ public class JwtFilterAuthentication extends OncePerRequestFilter {
         userName = claims.getSubject();
         AuthResponse userDetails = jwtUtil.getAuthResponseFromToken(token);
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(userDetails, null, Collections.emptyList());
             SecurityContext securityContext = SecurityContextHolder.createEmptyContext();

@@ -5,13 +5,9 @@ import com.service.employee.domain.Employee;
 import com.service.employee.domain.query.SearchEmployeeQuery;
 import com.service.employee.predicate.EmployeePredicate;
 import com.service.employee.repository.EmployeeDslRepository;
-import com.service.employee.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
 
 @Service

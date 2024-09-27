@@ -1,4 +1,4 @@
-package com.service.elasticsearch.entitties;
+package com.service.elasticsearch.sqlindex;
 
 import lombok.Builder;
 import lombok.Getter;

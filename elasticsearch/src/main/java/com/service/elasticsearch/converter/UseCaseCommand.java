@@ -1,6 +1,6 @@
 package com.service.elasticsearch.converter;
 
-import com.service.elasticsearch.entitties.ElasProductEntity;
+import com.service.elasticsearch.sqlindex.ElasProductEntity;
 import com.service.elasticsearch.request.ProductRequest;
 import lombok.experimental.UtilityClass;
 
