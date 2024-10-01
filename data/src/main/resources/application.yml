@@ -1,11 +1,33 @@
-spring:
-  application:
-    name: data
+microservice:
+  datasource:
+    write:
+      jdbc-url: jdbc:mysql://localhost:13306/microservice?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456789
+      pool-name: microservice-pool-write
+      max-lifetime: 60000
+    read:
+      jdbc-url: jdbc:mysql://localhost:13306/microserviceo?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: 123456789
+      pool-name: microservice-pool-read
+      readOnly: true
+      max-lifetime: 60000
   jpa:
     hibernate:
-      ddl-auto: update
-  datasource:
-    url: jdbc:mysql://localhost:13306/microservice
-    username: root
-    password: 123456789
-    driver-class-name: com.mysql.cj.jdbc.Driver
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        hbm2ddl:
+          jdbc_metadata_extraction_strategy: individually
+        format_sql: true
+        show_sql: false
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 1000
+          fetch_size: 1000
+          batch_versioned_data: true

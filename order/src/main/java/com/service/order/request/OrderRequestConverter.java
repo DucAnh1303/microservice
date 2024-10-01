@@ -1,6 +1,6 @@
 package com.service.order.request;
 
-import com.data.entity.OrderEntity;
+import com.service.microservice.data.entity.OrderEntity;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;

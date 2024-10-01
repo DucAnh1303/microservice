@@ -1,6 +1,6 @@
 package com.service.order.response;
 
-import com.data.entity.OrderEntity;
+import com.service.microservice.data.entity.OrderEntity;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

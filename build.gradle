@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.5'
-	id 'io.spring.dependency-management' version '1.1.4'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id "java-library"
 }
 
@@ -34,6 +34,8 @@ ext {
 	swaggerVersion = '2.1.0'
 	swaggerVersion2 = '2.5.0'
 	springBatch = '5.0.0'
+	hibernateValidatorVersion = '8.0.0.Final'
+	queryDslVersion = '5.0.0'
 }
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'

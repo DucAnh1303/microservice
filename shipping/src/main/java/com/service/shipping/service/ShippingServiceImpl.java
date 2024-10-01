@@ -1,6 +1,6 @@
 package com.service.shipping.service;
 
-import com.data.entity.ShippingEntity;
+import com.service.microservice.data.entity.ShippingEntity;
 import com.service.shipping.repository.ShippingRepository;
 import com.service.shipping.request.ShippingRequest;
 import com.service.shipping.request.ShippingRequestConverter;

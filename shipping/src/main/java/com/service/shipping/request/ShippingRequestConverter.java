@@ -1,6 +1,6 @@
 package com.service.shipping.request;
 
-import com.data.entity.ShippingEntity;
+import com.service.microservice.data.entity.ShippingEntity;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;

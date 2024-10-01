@@ -1,6 +1,6 @@
 package com.service.order.service;
 
-import com.data.entity.OrderEntity;
+import com.service.microservice.data.entity.OrderEntity;
 import com.service.order.kafka.ProducerMessage;
 import com.service.order.repository.OrderRepository;
 import com.service.order.request.OrderRequest;

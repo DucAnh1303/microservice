@@ -1,6 +1,6 @@
 package com.service.order.kafka;
 
-import com.data.entity.OrderEntity;
+import com.service.microservice.data.entity.OrderEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.order.response.OrderResponseConverter;
