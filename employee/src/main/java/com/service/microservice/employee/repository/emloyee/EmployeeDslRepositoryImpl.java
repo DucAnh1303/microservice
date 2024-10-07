@@ -10,9 +10,7 @@ import com.service.microservice.employee.repository.emloyee.predicate.EmployeePr
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import org.springframework.stereotype.Component;
 
-@Component
 public class EmployeeDslRepositoryImpl extends BaseQueryDslRepository implements EmployeeDslRepository {
 
     private static final QEmployeeEntity employee = QEmployeeEntity.employeeEntity;

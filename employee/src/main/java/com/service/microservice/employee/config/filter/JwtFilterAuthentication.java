@@ -6,7 +6,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -25,6 +27,10 @@ public class JwtFilterAuthentication extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
+    @Value("${microservices.employee.secret-key}")
+    private String secretKey;
+
+
 
     @Autowired
     public JwtFilterAuthentication(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
@@ -35,7 +41,9 @@ public class JwtFilterAuthentication extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
+
         final String header = request.getHeader("Authorization");
+        final String secretKey = request.getHeader("secret-key");
         final String token;
         final String userName;
 
@@ -44,10 +52,15 @@ public class JwtFilterAuthentication extends OncePerRequestFilter {
             return;
         }
 
+        if (!secretKey.equals(this.secretKey)) {
+            throw new BadRequestException("UnAuthorization!");
+        }
+
         token = header.substring(7);
 
         Claims claims = jwtUtil.getAllClaimsFromToken(token);
         userName = claims.getSubject();
+
         try {
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userName);

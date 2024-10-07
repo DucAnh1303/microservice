@@ -9,6 +9,7 @@ spring:
       discovery:
         locator:
           enabled: true
+
 jwt:
   secret: anhpd_130398_!@#$!@#!!!123_api_config_authentication
 
@@ -34,3 +35,7 @@ springdoc:
   cache:
     disabled: true
 
+microservices:
+  employee:
+    secret-key: ${SECRET_EMPLOYEE}
+    uri: /api/employee

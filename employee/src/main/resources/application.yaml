@@ -27,3 +27,7 @@ springdoc:
     url: /v3/api-docs
   cache:
     disabled: true
+
+microservices:
+  employee:
+    secret-key: employee
