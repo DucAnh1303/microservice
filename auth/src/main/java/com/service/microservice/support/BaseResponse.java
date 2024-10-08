@@ -8,13 +8,18 @@ import org.springframework.http.ResponseEntity;
 import java.io.Serializable;
 
 @Getter
-public class BaseResponse<B> extends ResponseEntity<B> implements Serializable {
-    public BaseResponse(final HttpStatus status) {
-        super(status);
-    }
+public class BaseResponse<B> implements Serializable {
+
+    private B body;
+    private HttpStatus status;
 
     public BaseResponse(final B body, final HttpStatus status) {
-        super(body, status);
+        this.body = body;
+        this.status = status;
+    }
+
+    public BaseResponse(final HttpStatus status) {
+        this.status = status;
     }
 
     @Getter

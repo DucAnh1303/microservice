@@ -1,11 +1,13 @@
 package com.service.microservice.auth.config;
 
 
+import com.service.microservice.auth.config.filter.JwtFilterAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurity {
 
     private final DelegatedAuthenticationEntryPoint authenticationEntryPoint;
+    private final JwtFilterAuthentication jwtFilterAuthentication;
 
     @Bean
     protected SecurityFilterChain configure(final HttpSecurity http) throws Exception {
@@ -38,6 +42,7 @@ public class WebSecurity {
                         .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exp -> exp.authenticationEntryPoint(authenticationEntryPoint));
+        http.addFilterAt(jwtFilterAuthentication, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

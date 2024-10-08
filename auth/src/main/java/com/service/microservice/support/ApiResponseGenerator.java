@@ -19,4 +19,6 @@ public class ApiResponseGenerator {
             final org.springframework.data.domain.Page<D> data, final HttpStatus status) {
         return new BaseResponse<>(new Page<>(data), status);
     }
+
+
 }

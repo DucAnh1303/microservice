@@ -1,6 +1,6 @@
 package com.service.microservice.auth.repository;
 
-import com.service.microservice.data.entity.AuthEntity;
+import com.service.microservice.auth.entities.AuthEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface AuthRepository extends JpaRepository<AuthEntity, Long>, AuthDslRepository {
 
     Optional<AuthEntity> findByName(String name);
+
+    Optional<AuthEntity> findByEmailAndName(String email, String name);
 
 }

@@ -1,14 +1,5 @@
 rootProject.name = 'microservice'
 
-include 'auth'
-include 'employee'
 include 'gateway'
 include 'discovery'
-include 'data'
-include 'order'
-include 'shipping'
-include 'syncdb'
-include 'batch'
-include 'assync'
-include 'elasticsearch'
 

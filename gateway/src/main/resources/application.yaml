@@ -28,10 +28,8 @@ springdoc:
     urls:
       - name: auth
         url: http://localhost:9091/v3/api-docs
-      - name: employee
+      - name: manage
         url: http://localhost:9093/v3/api-docs
-      - name: vendor
-        url: http://localhost:9097/v3/api-docs
   cache:
     disabled: true
 

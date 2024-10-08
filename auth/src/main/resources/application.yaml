@@ -11,6 +11,13 @@ spring:
     password: 123456789
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    producer-group:
+      group-id: 'account'
 
 server:
   port: 9091
