@@ -35,9 +35,9 @@ public class AccountConverter {
                 .build();
     }
 
-    public static AccountEntity command(AccountRequest request) {
+    public static AccountEntity command(AccountEntity account, AccountRequest request) {
 
-        return AccountEntity.builder().id(request.getId())
+        return account.toBuilder().id(request.getId())
                 .name(request.getName())
                 .email(request.getEmail())
                 .age(request.getAge())

@@ -10,6 +10,8 @@ import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 public class SwaggerConfig {
 
@@ -18,7 +20,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("API Gateway")
-                        .version("1.0")
+                        .version("3.0")
                         .description("API Gateway with Spring Cloud Gateway and Swagger")
                         .contact(new Contact()
                                 .name("API Support")
@@ -32,6 +34,10 @@ public class SwaggerConfig {
                         .addSecuritySchemes("Authentication", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
-                                .bearerFormat("JWT")));
+                                .bearerFormat("JWT")))
+                .servers(List.of(
+                        new Server().url("http://localhost:9091").description("auth"),
+                        new Server().url("http://localhost:9093").description("manage")
+                ));
     }
 }

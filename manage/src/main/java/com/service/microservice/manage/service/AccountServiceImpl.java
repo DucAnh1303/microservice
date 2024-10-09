@@ -34,7 +34,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateUser(AccountRequest request) {
-
+    public AccountEntity updateUser(AccountRequest request) {
+        AccountEntity account = accountRepository.findByIdAuth(request.getIdAuth())
+                .orElseThrow(ResolutionException::new);
+        return AccountConverter.command(account, request);
     }
 }

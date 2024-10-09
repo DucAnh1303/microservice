@@ -4,8 +4,9 @@ import lombok.Getter;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+
 @Getter
-public class Page <T>{
+public class Page<T> {
 
     private final int pageSize;
 

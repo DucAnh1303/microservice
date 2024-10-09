@@ -1,8 +1,8 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.5'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id "java-library"
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "java-library"
 }
 
 group = 'org.service'
@@ -10,11 +10,11 @@ version = '0.0.1-SNAPSHOT'
 
 
 java {
-	sourceCompatibility = '17'
+    sourceCompatibility = '17'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 
@@ -23,25 +23,25 @@ jar.enabled(false)
 
 
 allprojects {
-	group = 'com.service'
-	version = '0.0.1-SNAPSHOT'
-	sourceCompatibility = JavaVersion.VERSION_17
-	compileJava.options.encoding = 'UTF-8'
+    group = 'com.service'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = JavaVersion.VERSION_17
+    compileJava.options.encoding = 'UTF-8'
 }
 
 ext {
-	jwtVersion = '0.11.5'
-	swaggerVersion = '2.1.0'
-	swaggerVersion2 = '2.5.0'
-	springBatch = '5.0.0'
-	hibernateValidatorVersion = '8.0.0.Final'
-	queryDslVersion = '5.0.0'
+    jwtVersion = '0.11.5'
+    swaggerVersion = '2.1.0'
+    swaggerVersion2 = '2.5.0'
+    springBatch = '5.0.0'
+    hibernateValidatorVersion = '8.0.0.Final'
+    queryDslVersion = '5.0.0'
 }
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
