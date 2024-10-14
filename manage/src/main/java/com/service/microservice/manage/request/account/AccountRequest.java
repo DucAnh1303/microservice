@@ -1,14 +1,15 @@
 package com.service.microservice.manage.request.account;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
 @Getter
+@Setter
 public class AccountRequest {
 
     private Long id;
-    private Long idAuth;
     private String name;
     private String email;
     private int age;

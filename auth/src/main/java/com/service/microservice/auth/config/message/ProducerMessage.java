@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.microservice.auth.converter.AuthResConverter;
 import com.service.microservice.auth.entities.AuthEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,21 +13,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProducerMessage {
 
-    private final KafkaTemplate<String, String> message;
+
+    @Qualifier("kafkaTemplate1")
+    private final KafkaTemplate<String, String> kafkaTemplate1;
+
     private final ObjectMapper objectMapper;
 
-    public void ReceiveOrderNotification(AuthEntity order) {
+    public void saveAuth(AuthEntity order) {
         try {
             System.out.println("message success !");
-            message.send("account", objectMapper.writeValueAsString(AuthResConverter.from(order)));
+            kafkaTemplate1.send("account", objectMapper.writeValueAsString(AuthResConverter.from(order)));
+            kafkaTemplate1.flush();
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    public void ReceiveMessage(String send) {
-        System.out.println("message success !");
-        message.send("account-id-1", send);
-
     }
 }

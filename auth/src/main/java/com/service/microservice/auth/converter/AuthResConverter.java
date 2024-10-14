@@ -25,6 +25,8 @@ public class AuthResConverter {
                 .email(auth.getEmail())
                 .createdDate(createdDateString)
                 .updatedDate(updatedDateString)
+                .createdUser(auth.getCreatedUser())
+                .updatedUser(auth.getUpdatedUser())
                 .build();
     }
 

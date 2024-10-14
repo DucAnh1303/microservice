@@ -18,4 +18,6 @@ public class AuthResponse {
     private String email;
     private String createdDate;
     private String updatedDate;
+    private Long createdUser;
+    private Long updatedUser;
 }

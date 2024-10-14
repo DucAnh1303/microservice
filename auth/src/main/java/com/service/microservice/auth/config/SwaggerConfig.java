@@ -17,6 +17,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Auth API")
+
                         .version("3.0")
                         .description("API Auth with Spring Cloud Gateway and Swagger")
                         .contact(new Contact()

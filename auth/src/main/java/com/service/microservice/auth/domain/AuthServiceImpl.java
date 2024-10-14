@@ -70,7 +70,7 @@ public class AuthServiceImpl {
             throw new RuntimeException("UserName or email is exits");
         }
         AuthEntity auth = authRepository.save(AuthResConverter.to(create));
-        producerMessage.ReceiveOrderNotification(auth);
+        producerMessage.saveAuth(auth);
         return AuthResConverter.from(auth);
     }
 

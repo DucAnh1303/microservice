@@ -22,19 +22,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  #  axon-server:
-  #    image: axoniq/axonserver:latest
-  #    container_name: axon-server
-  #    hostname: axonserver
-  #    ports:
-  #      - "8024:8024"   # gRPC port
-  #      - "8124:8124"   # HTTP port
-  #    volumes:
-  #      - axonserver-data:/data
-  #      - axonserver-events:/eventdata
-  #      - axonserver-config:/config:ro
-  #    networks:
-  #      - axon-network
+  axon-server:
+    image: axoniq/axonserver:latest
+    container_name: axon-server
+    hostname: axonserver
+    ports:
+      - "8024:8024"   # gRPC port
+      - "8124:8124"   # HTTP port
+    volumes:
+      - axonserver-data:/data
+      - axonserver-events:/eventdata
+      - axonserver-config:/config:ro
+    networks:
+      - axon-network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest

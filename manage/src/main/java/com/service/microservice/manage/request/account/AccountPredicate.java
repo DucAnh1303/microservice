@@ -21,7 +21,7 @@ public class AccountPredicate implements Predicate<QAccountEntity> {
     @Override
     public BooleanExpression[] to(QAccountEntity entity) {
         return new BooleanExpression[]{
-                eq(entity.idAuth, id),
+                eq(entity.id, id),
                 like(entity.name, name),
                 like(entity.email, email)
         };

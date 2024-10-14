@@ -1,7 +1,9 @@
 package com.service.microservice.manage.entity.account;
 
 import com.service.microservice.manage.entity.audit.AuditEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +22,7 @@ import java.util.Date;
 public class AccountEntity extends AuditEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_seq_gen")
-    @SequenceGenerator(name = "my_seq_gen", sequenceName = "my_sequence", allocationSize = 1)
     private Long id;
-    private Long idAuth;
     private String name;
     private String email;
     private int age;

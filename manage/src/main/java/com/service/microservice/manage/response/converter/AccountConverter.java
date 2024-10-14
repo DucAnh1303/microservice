@@ -19,11 +19,13 @@ public class AccountConverter {
         LocalDateTime updatedDate = DateFormatConverter.convertStringToDate(authResponse.getUpdatedDate());
 
         return AccountEntity.builder()
-                .idAuth(authResponse.getId())
+                .id(authResponse.getId())
                 .name(authResponse.getName())
                 .email(authResponse.getEmail())
                 .createdDate(createdDate)
                 .updatedDate(updatedDate)
+                .createdUser(authResponse.getCreatedUser())
+                .updatedUser(authResponse.getUpdatedUser())
                 .build();
     }
 
@@ -37,14 +39,12 @@ public class AccountConverter {
 
     public static AccountEntity command(AccountEntity account, AccountRequest request) {
 
-        return account.toBuilder().id(request.getId())
-                .name(request.getName())
-                .email(request.getEmail())
+        return account.toBuilder()
+                .id(request.getId())
                 .age(request.getAge())
                 .birthDay(request.getBirthDay())
                 .address(request.getAddress())
                 .position(request.getPosition())
-                .idAuth(request.getIdAuth())
                 .description(request.getDescription())
                 .build();
     }

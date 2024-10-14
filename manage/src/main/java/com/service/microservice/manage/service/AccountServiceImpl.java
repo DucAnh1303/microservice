@@ -30,13 +30,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountEntity findById(Long id) {
-        return accountRepository.findByIdAuth(id).orElseThrow(ResolutionException::new);
+
+        return accountRepository.findById(id).orElseThrow(ResolutionException::new);
     }
 
     @Override
     public AccountEntity updateUser(AccountRequest request) {
-        AccountEntity account = accountRepository.findByIdAuth(request.getIdAuth())
+
+        AccountEntity account = accountRepository.findById(request.getId())
                 .orElseThrow(ResolutionException::new);
-        return AccountConverter.command(account, request);
+
+        return accountRepository.save(AccountConverter.command(account, request));
     }
 }

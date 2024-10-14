@@ -17,7 +17,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     producer-group:
-      group-id: 'account'
+      group-id-1: 'account'
 
 server:
   port: 9091
@@ -27,9 +27,16 @@ jwt:
   expiration: 3600000
   expiration-refresh: 3900000
 
-#axon:
-#  axonserver:
-#    servers: localhost:8024
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+axon:
+  axonserver:
+    servers: localhost:8024
+    ssl-enabled: false
+
 
 springdoc:
   api-docs:

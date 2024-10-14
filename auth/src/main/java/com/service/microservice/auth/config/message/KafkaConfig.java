@@ -20,23 +20,32 @@ public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${spring.kafka.producer-group.group-id}")
+    @Value("${spring.kafka.producer-group.group-id-1}")
     private String account;
 
 
-    @Bean
-    public ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<String, String> producerFactory(String groupId) {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-        configProps.put(ProducerConfig.CLIENT_ID_CONFIG, account);
+        configProps.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 120000);
+        configProps.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 30000);
+        configProps.put(ProducerConfig.LINGER_MS_CONFIG, 500);
+
+        configProps.put(ProducerConfig.CLIENT_ID_CONFIG, groupId);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public ProducerFactory<String, String> producerFactoryGroup1() {
+        return producerFactory(account);
+    }
+
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate1() {
+        return new KafkaTemplate<>(producerFactoryGroup1());
     }
 }
