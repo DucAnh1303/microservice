@@ -44,6 +44,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_AUTOPURGE_SNAPRETAINCOUNT: 3  # Giữ lại 3 snapshot gần nhất
+      ZOOKEEPER_AUTOPURGE_PURGEINTERVAL: 24 # Dọn dẹp tự động mỗi 24 giờ
     volumes:
       - zookeeper_data:/var/lib/zookeeper/data
       - zookeeper_log:/var/lib/zookeeper/log
@@ -60,6 +62,9 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 5
+      KAFKA_LOG_RETENTION_HOURS: 72 # Giữ dữ liệu topic trong 72 giờ (3 ngày)
+      KAFKA_DELETE_TOPIC_ENABLE: "true" # Cho phép xóa topic
+      KAFKA_OFFSETS_RETENTION_MINUTES: 1440
     depends_on:
       - zookeeper
     volumes:
