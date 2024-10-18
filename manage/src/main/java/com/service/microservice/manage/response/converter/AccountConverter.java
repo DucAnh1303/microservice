@@ -1,31 +1,45 @@
 package com.service.microservice.manage.response.converter;
 
 import com.service.microservice.manage.entity.account.AccountEntity;
+import com.service.microservice.manage.request.account.AccountCreate;
 import com.service.microservice.manage.request.account.AccountPredicate;
 import com.service.microservice.manage.request.account.AccountRequest;
 import com.service.microservice.manage.request.account.AccountSearch;
 import com.service.microservice.manage.response.AuthResponse;
-import com.service.microservice.manage.utils.DateFormatConverter;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @UtilityClass
 public class AccountConverter {
 
-    public static AccountEntity to(AuthResponse authResponse) {
-
-        LocalDateTime createdDate = DateFormatConverter.convertStringToDate(authResponse.getCreatedDate());
-        LocalDateTime updatedDate = DateFormatConverter.convertStringToDate(authResponse.getUpdatedDate());
+    public static AccountEntity to(AccountCreate authResponse) {
 
         return AccountEntity.builder()
-                .id(authResponse.getId())
                 .name(authResponse.getName())
                 .email(authResponse.getEmail())
-                .createdDate(createdDate)
-                .updatedDate(updatedDate)
-                .createdUser(authResponse.getCreatedUser())
-                .updatedUser(authResponse.getUpdatedUser())
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .build();
+    }
+
+    public static AuthResponse from(AccountEntity data, String password) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String createdDateString = data.getCreatedDate().format(formatter);
+        String updatedDateString = data.getUpdatedDate().format(formatter);
+
+        return AuthResponse.builder()
+                .id(data.getId())
+                .name(data.getName())
+                .email(data.getEmail())
+                .password(password)
+                .showPassword(password)
+                .createdDate(createdDateString)
+                .updatedDate(updatedDateString)
+                .createdUser(data.getCreatedUser())
+                .updatedUser(data.getUpdatedUser())
                 .build();
     }
 
@@ -46,6 +60,16 @@ public class AccountConverter {
                 .address(request.getAddress())
                 .position(request.getPosition())
                 .description(request.getDescription())
+                .build();
+    }
+
+    public static AccountEntity commandCreate(AccountCreate request) {
+
+        return AccountEntity.builder()
+                .email(request.getEmail())
+                .name(request.getName())
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
                 .build();
     }
 }

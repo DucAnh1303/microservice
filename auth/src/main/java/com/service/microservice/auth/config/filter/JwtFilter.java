@@ -89,6 +89,10 @@ public class JwtFilter {
         return getClaimFromToken(token, "auth", AuthResponse.class);
     }
 
+    public Long getId(String token) {
+        return getClaimFromToken(token, "id", Long.class);
+    }
+
     public <T> T getClaimFromToken(String token, String claimKey, Class<T> clazz) {
         Claims claims = getClaimsFromToken(token);
         Object claim = claims.get(claimKey);

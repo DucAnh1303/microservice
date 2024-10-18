@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+@Entity
+@Table(name = "auth_control")
 @Getter
 @Setter
-@Table(name = "auth")
-@Entity
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthEntity extends AuditEntity {
+public class AuthControlEntity extends AuditEntity {
     @Id
     private Long id;
     @Column
@@ -25,8 +25,7 @@ public class AuthEntity extends AuditEntity {
     @Column
     private String email;
     @Column
-    private String password;
+    private String token;
     @Column
-    private String showPassword;
-
+    private String refreshToken;
 }

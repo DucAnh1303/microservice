@@ -22,6 +22,12 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       auto-offset-reset: earliest
       group-id-1: 'account'
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    producer-group:
+      group-push: 'account'
+
 
 server:
   port: 9093
@@ -34,3 +40,16 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+      eureka-server-retry-attempts: 2
+    registry-fetch-interval-seconds: 10    # Khoảng thời gian giữa các yêu cầu fetch registry
+    initial-instance-info-replication-interval-seconds: 5
+    eureka-server-connect-timeout-seconds: 5  # Timeout khi kết nối đến Eureka
+    eureka-server-read-timeout-seconds: 8     # Timeout khi đọc dữ liệu từ Eureka
+    healthcheck:
+      enabled: true
+  instance:
+    # Khoảng thời gian giữa các lần gia hạn lease với Eureka
+    lease-renewal-interval-in-seconds: 10
+    # Khoảng thời gian client sẽ được đánh dấu là DOWN nếu không gia hạn
+    lease-expiration-duration-in-seconds: 30
+

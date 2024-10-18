@@ -17,6 +17,6 @@ public class CustomerExceptionHandler {
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<ErrorResponse> tokenExpiredException(TokenExpiredException ex) {
         ErrorResponse exception = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception);
+        return new ResponseEntity<>(exception,HttpStatus.UNAUTHORIZED);
     }
 }

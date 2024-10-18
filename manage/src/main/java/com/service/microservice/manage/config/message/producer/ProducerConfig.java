@@ -1,6 +1,5 @@
-package com.service.microservice.auth.config.message;
+package com.service.microservice.manage.config.message.producer;
 
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,26 +14,26 @@ import java.util.Map;
 
 @Configuration
 @EnableKafka
-public class KafkaConfig {
+public class ProducerConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${spring.kafka.producer-group.group-id-1}")
+    @Value("${spring.kafka.producer-group.group-push}")
     private String account;
 
 
     public ProducerFactory<String, String> producerFactory(String groupId) {
         Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        configProps.put(org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        configProps.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        configProps.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-        configProps.put(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 120000);
-        configProps.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 30000);
-        configProps.put(ProducerConfig.LINGER_MS_CONFIG, 500);
+        configProps.put(org.apache.kafka.clients.producer.ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, 120000);
+        configProps.put(org.apache.kafka.clients.producer.ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 30000);
+        configProps.put(org.apache.kafka.clients.producer.ProducerConfig.LINGER_MS_CONFIG, 500);
 
-        configProps.put(ProducerConfig.CLIENT_ID_CONFIG, groupId);
+        configProps.put(org.apache.kafka.clients.producer.ProducerConfig.CLIENT_ID_CONFIG, groupId);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 

@@ -14,6 +14,8 @@ public class AuthResponse {
     private Long id;
     private String name;
     private String email;
+    private String password;
+    private String showPassword;
     private String createdDate;
     private String updatedDate;
     private Long createdUser;
