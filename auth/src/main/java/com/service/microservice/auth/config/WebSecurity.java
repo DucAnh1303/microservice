@@ -40,7 +40,8 @@ public class WebSecurity {
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 "/webjars/**",
-                                "/eureka/**").permitAll()
+                                "/eureka/**",
+                                "/api/limited").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

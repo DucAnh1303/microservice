@@ -14,6 +14,8 @@ import com.service.microservice.auth.response.AuthGenJwtResponse;
 import com.service.microservice.auth.response.AuthResponse;
 import com.service.microservice.auth.until.TypeJwt;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,15 +69,12 @@ public class AuthServiceImpl {
 
     private AuthGenJwtResponse getJwtFilter(String userName) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-
         AuthResponse response = authRepository.findByName(userDetails.getUsername())
                 .map(AuthResConverter::from).orElseThrow(ResolutionException::new);
-
         String token = jwtFilter.generate(response, TypeJwt.ACCESS.name());
         String newRefreshToken = jwtFilter.generate(response, TypeJwt.REFRESH.name());
 
         Optional<AuthControlEntity> authControl = authControlRepository.findById(response.getId());
-
         if (authControl.isEmpty()) {
             authControlRepository.save(AuthControlConverter.create(response, token, newRefreshToken));
         } else {

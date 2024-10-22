@@ -47,5 +47,5 @@ springdoc:
 
 microservices:
   employee:
-    secret-key: ${SECRET_EMPLOYEE}
+    secret-key: employee
     uri: /api/employee

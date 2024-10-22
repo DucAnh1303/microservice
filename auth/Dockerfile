@@ -1,5 +1,6 @@
 FROM openjdk:17-jdk-alpine
 
+WORKDIR /app
 #copy file jar change app.jar
 COPY build/libs/auth-0.0.1-SNAPSHOT.jar auth.jar
 

@@ -1,5 +1,6 @@
-package com.service.microservice.auth.config.message.consumer;
+package com.service.shipping.config.consumer;
 
+import com.service.shipping.config.exception.RetryMessageHandleException;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -12,7 +13,10 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.DefaultErrorHandler;
+import org.springframework.kafka.listener.ListenerExecutionFailedException;
+import org.springframework.util.backoff.BackOff;
 import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
@@ -26,9 +30,8 @@ public class ConsumerConfig {
     private String bootstrapServers;
 
     @Value("${spring.kafka.consumer.group-id-1}")
-    private String accounts;
+    private String order;
 
-    @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -42,22 +45,21 @@ public class ConsumerConfig {
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory1() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-//        factory.setConcurrency(1);
-        DefaultErrorHandler errorHandler = new DefaultErrorHandler(
-                new FixedBackOff(1000L, 2L) // Retry every 1 second, and retry up to 3 times
-        );
-//
-//        ExponentialBackOff backOff = new ExponentialBackOff(1000L, 2); // Start with 1s, then exponentially increase
-//        backOff.setMaxElapsedTime(10000L); // Maximum total time retrying
-//
-//            errorHandler.setCommitRecovered(true); // Commit offset even if retry fails
-
-        factory.setCommonErrorHandler(errorHandler);
+        factory.setConcurrency(1); // handle multithred consumer
+        factory.setCommonErrorHandler(errorHandler());
         factory.getContainerProperties().setPollTimeout(3000);
         return factory;
     }
 
-    // handle delete offsets, topic ... in kafka
+    public DefaultErrorHandler errorHandler() {
+            BackOff fixedBackOff = new FixedBackOff(2000L, 2L);
+            DefaultErrorHandler errorHandler = new DefaultErrorHandler((consumerRecord, exception) -> {
+                System.out.println("Max retries reached. Stopping listener for message: " + consumerRecord.value());
+            }, fixedBackOff);
+            errorHandler.setCommitRecovered(true);
+            return errorHandler;
+    }
+
     @Bean
     public AdminClient adminClient() {
         Map<String, Object> configProps = new HashMap<>();
