@@ -28,9 +28,10 @@ public class ConsumerConfig {
     @Value("${spring.kafka.consumer.group-id-1}")
     private String accounts;
 
-    @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
+
+    public ConsumerFactory<String, String> consumerFactory(String group) {
         Map<String, Object> configProps = new HashMap<>();
+        configProps.put(org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG, group);
         configProps.put(org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configProps.put(org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
@@ -41,7 +42,7 @@ public class ConsumerConfig {
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory1() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+        factory.setConsumerFactory(consumerFactory(accounts));
 //        factory.setConcurrency(1);
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(
                 new FixedBackOff(1000L, 2L) // Retry every 1 second, and retry up to 3 times

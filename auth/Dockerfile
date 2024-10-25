@@ -1,13 +1,14 @@
-FROM openjdk:17-jdk-alpine
+# Sử dụng JDK 17 để build ứng dụng
+FROM gradle:7.6.1-jdk17-alpine AS build
 
 WORKDIR /app
-#copy file jar change app.jar
-COPY build/libs/auth-0.0.1-SNAPSHOT.jar auth.jar
 
-#command run application
-ENTRYPOINT ["java", "-jar", "/auth.jar"]
+COPY . /app
 
-#open port 9091 application
-EXPOSE 9091
+RUN ./gradlew clean build
 
+FROM openjdk:17-slim
 
+COPY build/libs/auth-0.0.1-SNAPSHOT.jar app/auth.jar
+
+ENTRYPOINT ["java", "-jar", "/app/auth.jar"]

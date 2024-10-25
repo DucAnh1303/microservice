@@ -24,8 +24,8 @@ public class AuthControlEntity extends AuditEntity {
     private String name;
     @Column
     private String email;
-    @Column
+    @Column(columnDefinition = "varchar(4000)")
     private String token;
-    @Column
+    @Column(columnDefinition = "varchar(4000)")
     private String refreshToken;
 }
