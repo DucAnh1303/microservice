@@ -30,7 +30,7 @@ public class AuditEntity implements Serializable {
     protected Long createdUser;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected LocalDateTime createdDate;
@@ -40,7 +40,7 @@ public class AuditEntity implements Serializable {
     protected Long updatedUser;
 
     @LastModifiedDate
-    @Column
+    @Column(name = "updated_at")
     @Builder.Default
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

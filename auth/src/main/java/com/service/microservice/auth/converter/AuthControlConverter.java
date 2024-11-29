@@ -12,9 +12,9 @@ public class AuthControlConverter {
 
     public static AuthControlEntity create(AuthResponse response, String token, String refreshToken) {
         return AuthControlEntity.builder()
-                .id(response.getId())
                 .name(response.getName())
                 .email(response.getEmail())
+                .authId(response.getId())
                 .token(token)
                 .refreshToken(refreshToken)
                 .createdDate(LocalDateTime.now())

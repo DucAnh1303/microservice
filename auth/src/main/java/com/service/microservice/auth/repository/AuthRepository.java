@@ -11,6 +11,8 @@ public interface AuthRepository extends JpaRepository<AuthEntity, Long>, AuthDsl
 
     Optional<AuthEntity> findByName(String name);
 
+    Optional<AuthEntity> findByEmail(String email);
+
     Optional<AuthEntity> findByEmailAndName(String email, String name);
 
 }

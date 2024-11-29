@@ -20,6 +20,9 @@ spring:
       discovery:
         locator:
           enabled: true
+#  redis:
+#    host: localhost
+#    port: 16379
 jwt:
   secret: anhpd_130398_!@#$!@#!!!123_api_config_authentication
 

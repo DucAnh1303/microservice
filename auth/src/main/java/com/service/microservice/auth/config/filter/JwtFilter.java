@@ -1,12 +1,19 @@
 package com.service.microservice.auth.config.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.service.microservice.auth.common.until.TypeJwt;
+import com.service.microservice.auth.entities.AuthControlEntity;
+import com.service.microservice.auth.entities.AuthEntity;
 import com.service.microservice.auth.response.AuthResponse;
-import com.service.microservice.auth.until.TypeJwt;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class JwtFilter {
 
     @Value("${jwt.secret}")
@@ -34,20 +42,19 @@ public class JwtFilter {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    // get username
-    public String getToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(this.key).build().parseClaimsJws(token).getBody().getSubject();
-    }
-
     // get token
     public String generate(AuthResponse authResponse, String type) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("auth", authResponse);
+        if (TypeJwt.ACCESS.name().equals(type)) {
+            claims.put("type", type);
+            claims.put("auth", authResponse);
+            return doGenerateToken(claims, authResponse.getId(), type);
+        }
         claims.put("type", type);
-        return doGenerateToken(claims, authResponse.getName(), type);
+        return doGenerateToken(claims, authResponse.getId(), type);
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String username, String type) {
+    private String doGenerateToken(Map<String, Object> claims, Long id, String type) {
 
         long expirationTimeLong = getExpirationTime(type);
         final Date createdDate = new Date();
@@ -55,8 +62,7 @@ public class JwtFilter {
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
-                .setIssuer("microservice")
+                .setSubject(String.valueOf(id))
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
                 .signWith(this.key)
@@ -72,14 +78,22 @@ public class JwtFilter {
 
     // check time token expire
     public boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        try {
+            final Date expiration = getClaimsFromToken(token).getExpiration();
+            return (expiration.before(new Date()));
+        } catch (SignatureException | MalformedJwtException e) {
+            return true;
+        } catch (ExpiredJwtException e) {
+            log.error("JWT token is expired: {} ", e.getMessage());
+            return true;
+        } catch (UnsupportedJwtException e) {
+            log.error("Unsupported JWT token: {} ", e.getMessage());
+            return true;
+        } catch (IllegalArgumentException e) {
+            log.error("JWT claims string is empty: {} ", e.getMessage());
+            return true;
+        }
     }
-
-    public Date getExpirationDateFromToken(String token) {
-        return getClaimsFromToken(token).getExpiration();
-    }
-
 
     public Claims getClaimsFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(this.key).build().parseClaimsJws(token).getBody();

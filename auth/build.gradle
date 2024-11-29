@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.flywaydb.flyway' version '8.2.0'
 }
 
 group = 'com.service.microservice'
@@ -12,8 +13,8 @@ java {
     targetCompatibility = '17'
 }
 
-bootJar.enabled(true)
-jar.enabled(false)
+//bootJar.enabled(false)
+//jar.enabled(true)
 
 configurations {
     compileOnly {
@@ -36,6 +37,16 @@ ext {
     set('springCloudVersion', "2023.0.1")
 }
 
+flyway {
+    url = 'jdbc:mysql://localhost:13306/microservice'
+    user = 'root'
+    password = '123456789'
+    locations = ["filesystem:${file('src\\main\\resources\\migration').absolutePath}"]
+    baselineOnMigrate = true
+    validateOnMigrate = true
+    outOfOrder = true
+}
+
 dependencies {
 
     implementation 'com.google.code.gson:gson:2.10.1'
@@ -46,7 +57,11 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    //import DB
     runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation("org.flywaydb:flyway-core:9.20.0")
+//    implementation("org.flywaydb:flyway-mysql:8.2.0")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -82,7 +97,11 @@ dependencyManagement {
 //        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 //    }
 }
-tasks.named('test') {
-    useJUnitPlatform()
-}
+//tasks.register('generateDatabase') {
+//    dependsOn tasks.named('flywayMigrate')
+//}
+//
+//tasks.named('build') {
+//    dependsOn 'generateDatabase'
+//}
 

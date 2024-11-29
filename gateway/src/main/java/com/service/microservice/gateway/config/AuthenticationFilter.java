@@ -18,6 +18,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 @RefreshScope
 @Component
@@ -26,6 +27,9 @@ public class AuthenticationFilter implements GatewayFilter {
     private final RouterValidator routerValidator;
 
     private final JwtUtil jwtUtil;
+
+    private static final Set<String> blockedIps = Set.of("192.168.1.100", "203.0.113.0");
+
 
     @Value("${microservices.employee.secret-key}")
     private String secretKeyEmployee;
@@ -43,16 +47,23 @@ public class AuthenticationFilter implements GatewayFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
+//        String clientIp = exchange.getRequest().getRemoteAddress().getAddress().getHostAddress(); block ip in here
+//        if (blockedIps.contains(clientIp)) {
+//            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+//            return exchange.getResponse().setComplete();
+//        }
+
         if (routerValidator.isSecured.test(request)) {
             if (this.isAuthMissing(request)) {
-                return this.onError(exchange, HttpStatus.UNAUTHORIZED, "User authentication information is incorrect");
+                return this.onError(exchange, HttpStatus.UNAUTHORIZED, "Account information invalid");
             }
 
             final String token = this.getAuthHeader(request).substring(7);
+
             try {
                 jwtUtil.validateToken(token);
             } catch (Exception e) {
-                return this.onError(exchange, HttpStatus.FORBIDDEN, "User authentication information is forbidden");
+                return this.onError(exchange, HttpStatus.FORBIDDEN, "Token is expired or invalid");
             }
 
             if (request.getURI().getPath().equals(uriEmployee)) {
@@ -90,9 +101,8 @@ public class AuthenticationFilter implements GatewayFilter {
 
     private void updateRequest(ServerWebExchange exchange, String token, String secretKey) {
         Claims claims = jwtUtil.getAllClaimsFromToken(token);
-        claims.put("secret-key", secretKey);
         exchange.getRequest().mutate()
-                .header("secret-key", String.valueOf(claims.get("secret-key")))
+                .header("secret-key", secretKey)
                 .build();
     }
 }

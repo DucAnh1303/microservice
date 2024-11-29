@@ -1,9 +1,9 @@
 package com.service.microservice.auth.converter;
 
 import com.service.microservice.auth.entities.AuthEntity;
+import com.service.microservice.auth.request.AccountRegister;
 import com.service.microservice.auth.request.AuthCreate;
 import com.service.microservice.auth.response.AuthResponse;
-import com.service.microservice.auth.until.DateFormatConverter;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -15,7 +15,6 @@ public class AuthResConverter {
 
 
     public static AuthResponse from(AuthEntity auth) {
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String createdDateString = auth.getCreatedDate().format(formatter);
         String updatedDateString = auth.getUpdatedDate().format(formatter);
@@ -24,6 +23,7 @@ public class AuthResConverter {
                 .id(auth.getId())
                 .name(auth.getName())
                 .email(auth.getEmail())
+                .role(auth.getAccessRole())
                 .createdDate(createdDateString)
                 .updatedDate(updatedDateString)
                 .createdUser(auth.getCreatedUser())
@@ -31,23 +31,16 @@ public class AuthResConverter {
                 .build();
     }
 
-    public static AuthEntity to(AuthResponse res) {
-
+    public static AuthEntity to(AccountRegister register) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        LocalDateTime convertCreateStrtoDate = DateFormatConverter.convertStringToDate(res.getCreatedDate());
-        LocalDateTime convertUpdateStrtoDate = DateFormatConverter.convertStringToDate(res.getUpdatedDate());
-
         return AuthEntity.builder()
-                .id(res.getId())
-                .name(res.getName())
-                .email(res.getEmail())
-                .password(passwordEncoder.encode(res.getPassword()))
-                .showPassword(res.getShowPassword())
-                .createdDate(convertCreateStrtoDate)
-                .updatedDate(convertUpdateStrtoDate)
-                .createdUser(res.getCreatedUser())
-                .updatedUser(res.getUpdatedUser())
+                .name(register.getName())
+                .email(register.getEmail())
+                .password(passwordEncoder.encode(register.getPassword()))
+                .accessRole(register.getAccessRole())
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
                 .build();
     }
 
@@ -58,7 +51,6 @@ public class AuthResConverter {
                 .name(create.getName())
                 .email(create.getEmail())
                 .password(passwordEncoder.encode(create.getPassword()))
-                .showPassword(create.getPassword())
                 .createdDate(LocalDateTime.now())
                 .updatedDate(LocalDateTime.now())
                 .build();

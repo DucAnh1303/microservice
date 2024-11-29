@@ -40,7 +40,7 @@ public class ConsumerConfig {
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory1() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(accounts));
-        factory.setConcurrency(100); // handle multithred consumer
+        factory.setConcurrency(2); // handle multithred consumer
         factory.getContainerProperties().setPollTimeout(3000);
         return factory;
     }
