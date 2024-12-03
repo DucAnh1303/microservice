@@ -23,11 +23,11 @@ public class AuthResConverter {
                 .id(auth.getId())
                 .name(auth.getName())
                 .email(auth.getEmail())
-                .role(auth.getAccessRole())
+                .role(auth.getAccessRole().toUpperCase())
                 .createdDate(createdDateString)
                 .updatedDate(updatedDateString)
-                .createdUser(auth.getCreatedUser())
-                .updatedUser(auth.getUpdatedUser())
+                .createdUser(auth.getId())
+                .updatedUser(auth.getId())
                 .build();
     }
 

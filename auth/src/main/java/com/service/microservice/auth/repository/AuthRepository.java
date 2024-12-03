@@ -9,6 +9,7 @@ import java.util.Optional;
 @Repository
 public interface AuthRepository extends JpaRepository<AuthEntity, Long>, AuthDslRepository {
 
+
     Optional<AuthEntity> findByName(String name);
 
     Optional<AuthEntity> findByEmail(String email);

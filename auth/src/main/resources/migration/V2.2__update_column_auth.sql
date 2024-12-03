@@ -1,1 +1,0 @@
-ALTER TABLE auth ADD COLUMN access_role VARCHAR(100);

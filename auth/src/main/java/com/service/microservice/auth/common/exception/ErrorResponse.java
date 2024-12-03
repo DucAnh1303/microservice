@@ -10,9 +10,9 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ErrorResponse {
+public class ErrorResponse<T> {
 
     private int code;
     private HttpStatus error;
-    private String message;
+    private T message;
 }

@@ -11,7 +11,6 @@ public class RouterValidator {
 
     public static final List<String> openApiEndpoints = List.of(
             "/auth/login",
-            "/manage/execute",
             "/auth/refresh-token",
             "/v3/api-docs/**",
             "/swagger-ui.html/**",

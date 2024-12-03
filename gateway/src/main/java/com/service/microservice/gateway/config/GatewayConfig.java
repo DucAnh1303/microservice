@@ -25,26 +25,11 @@ public class GatewayConfig {
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
-        return builder
-                .routes()
+        return builder.routes()
                 .route("auth", r -> r
                         .path("/auth/**")
                         .filters(f -> f.filter(filter))
                         .uri("http://localhost:9091"))
-                .route("manage", r -> r
-                        .path("/manage/**")
-                        .filters(f -> f.filter(filter))
-                        .uri("http://localhost:9093"))
-                .route("manage", r -> r
-                        .path("/order/**")
-                        .filters(f -> f
-                                .requestRateLimiter(c -> c
-                                        .setRateLimiter(redisRateLimiter())
-                                        .setKeyResolver(keyResolver())
-                                        .setDenyEmptyKey(true)
-                                        .setStatusCode(HttpStatus.TOO_MANY_REQUESTS))
-                                .filter(filter))
-                        .uri("http://localhost:9094"))
                 .build();
     }
 

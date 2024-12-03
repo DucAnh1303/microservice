@@ -1,10 +1,19 @@
 package com.service.microservice.auth.common.validate;
 
-import java.util.regex.Pattern;
+import java.util.Set;
 
 public class Validator {
 
-    private static final String CUSTOM_EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.(gmail\\.com|yahoo\\.com|hotmail\\.com)$";
+    private static final Set<String> ALLOWED_DOMAINS = Set.of("gmail.com", "yahoo.com", "hotmail.com");
 
-    public static final Pattern EMAIL_PATTERN = Pattern.compile(CUSTOM_EMAIL_REGEX);
+    public static boolean isValidEmail(String email) {
+        if (email == null || !email.contains("@")) {
+            return false;
+        }
+        String[] parts = email.split("@");
+        if (parts.length != 2) {
+            return false;
+        }
+        return ALLOWED_DOMAINS.contains(parts[1]);
+    }
 }

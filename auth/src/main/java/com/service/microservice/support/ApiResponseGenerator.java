@@ -1,6 +1,6 @@
 package com.service.microservice.support;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 
 public class ApiResponseGenerator {
 
@@ -8,18 +8,17 @@ public class ApiResponseGenerator {
         throw new UnsupportedOperationException();
     }
 
-    public static BaseResponse<Void> success(final HttpStatus status) {
+    public static BaseResponse<Void> success(final String status) {
         return new BaseResponse<>(status);
     }
 
-    public static <D> BaseResponse<D> success(final D data, final HttpStatus status) {
-        return new BaseResponse<>(data, status);
+    public static <D> BaseResponse<D> success(final int code, final String status, final D data) {
+        return new BaseResponse<>(code, status, data);
     }
 
-    public static <D> BaseResponse<Page<D>> success(
-            final org.springframework.data.domain.Page<D> data, final HttpStatus status) {
-        return new BaseResponse<>(new Page<>(data), status);
-    }
+//    public static <D> BaseResponse<BasePage<D>> success(final int code, final String status, final org.springframework.data.domain.Page<D> data) {
+//        return new BaseResponse<>(code, status, new BasePage<>(data));
+//    }
 
 
 }

@@ -3,6 +3,7 @@ package com.service.microservice.auth.config.security;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.stereotype.Component;
 
@@ -10,22 +11,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static com.service.microservice.auth.config.common.AccessRole.urlRoleMap;
+
 @Component
 public class CustomAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
 
-    private static final String ROLE_ADMIN = "ADMIN";
-    private static final String ROLE_MANAGE = "MANAGE";
-    private static final String ROLE_USER = "USER";
-
-    private final Map<String, List<String>> urlRoleMap = Map.of(
-            "/auth/search", List.of(ROLE_ADMIN, ROLE_MANAGE)
-    );
-
 
     @Override
-    public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
-        List<String> authorities = authentication.get().getAuthorities().stream()
-                .map(grantedAuthority -> grantedAuthority.getAuthority())
+    public AuthorizationDecision check(Supplier<Authentication> authenticationSupplier, RequestAuthorizationContext object) {
+        List<String> authorities = authenticationSupplier.get().getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
                 .toList();
 
         String requestUrl = object.getRequest().getRequestURI();

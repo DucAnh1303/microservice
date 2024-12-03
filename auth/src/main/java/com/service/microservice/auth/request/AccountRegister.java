@@ -14,7 +14,7 @@ public class AccountRegister {
     private String email;
     @NotBlank(message = "password is required")
     private String password;
-    @NotBlank(message = "ConfirmPassword has not matches")
+    @NotBlank(message = "Password and conform password is not matches !")
     private String confirmPassword;
     private String accessRole;
 }

@@ -1,9 +1,7 @@
 package com.service.microservice.gateway.config;
 
 
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -18,7 +16,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Set;
 
 @RefreshScope
 @Component
@@ -27,15 +24,6 @@ public class AuthenticationFilter implements GatewayFilter {
     private final RouterValidator routerValidator;
 
     private final JwtUtil jwtUtil;
-
-    private static final Set<String> blockedIps = Set.of("192.168.1.100", "203.0.113.0");
-
-
-    @Value("${microservices.employee.secret-key}")
-    private String secretKeyEmployee;
-
-    @Value("${microservices.employee.uri}")
-    private String uriEmployee;
 
     @Autowired
     public AuthenticationFilter(RouterValidator routerValidator, JwtUtil jwtUtil) {
@@ -46,8 +34,8 @@ public class AuthenticationFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-
-//        String clientIp = exchange.getRequest().getRemoteAddress().getAddress().getHostAddress(); block ip in here
+        //block ip in here
+//        String clientIp = exchange.getRequest().getRemoteAddress().getAddress().getHostAddress();
 //        if (blockedIps.contains(clientIp)) {
 //            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
 //            return exchange.getResponse().setComplete();
@@ -65,12 +53,7 @@ public class AuthenticationFilter implements GatewayFilter {
             } catch (Exception e) {
                 return this.onError(exchange, HttpStatus.FORBIDDEN, "Token is expired or invalid");
             }
-
-            if (request.getURI().getPath().equals(uriEmployee)) {
-                this.updateRequest(exchange, token, secretKeyEmployee);
-            } else {
-                this.updateRequest(exchange, token, "");
-            }
+            this.updateRequest(exchange);
         }
         return chain.filter(exchange);
     }
@@ -99,10 +82,7 @@ public class AuthenticationFilter implements GatewayFilter {
         return !request.getHeaders().containsKey("Authorization");
     }
 
-    private void updateRequest(ServerWebExchange exchange, String token, String secretKey) {
-        Claims claims = jwtUtil.getAllClaimsFromToken(token);
-        exchange.getRequest().mutate()
-                .header("secret-key", secretKey)
-                .build();
+    private void updateRequest(ServerWebExchange exchange) {
+        exchange.getRequest().mutate().build();
     }
 }

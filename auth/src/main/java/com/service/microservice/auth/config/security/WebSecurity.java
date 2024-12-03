@@ -4,6 +4,7 @@ package com.service.microservice.auth.config.security;
 import com.service.microservice.auth.config.common.AccessRole;
 import com.service.microservice.auth.config.filter.JwtAuthenticationFilter;
 import com.service.microservice.auth.config.filter.JwtFilter;
+import com.service.microservice.auth.config.filter.SecurityService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +37,8 @@ public class WebSecurity {
     private final CustomAuthorizationManager authorizationManager;
 
 
-    public WebSecurity(final AuthenticationEntryPoint authenticationEntryPoint, final JwtFilter jwtUtil, final SecurityService securityService, AccessDeniedHandlerError accessDeniedHandlerError, CustomAuthorizationManager authorizationManager) {
+    public WebSecurity(final AuthenticationEntryPoint authenticationEntryPoint, final JwtFilter jwtUtil, final SecurityService securityService,
+                        AccessDeniedHandlerError accessDeniedHandlerError, CustomAuthorizationManager authorizationManager) {
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.jwtUtil = jwtUtil;
         this.securityService = securityService;
@@ -50,7 +52,8 @@ public class WebSecurity {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(AccessRole.accessAll).permitAll()
-                        .anyRequest().access(authorizationManager))
+                        .requestMatchers(AccessRole.urlRoleMap.keySet().toArray(new String[0])).access(authorizationManager)
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ext -> ext
                         .accessDeniedHandler(this.accessDeniedHandlerError)
