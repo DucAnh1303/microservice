@@ -1,6 +1,5 @@
 package com.service.microservice.auth.service.impl;
 
-import com.service.microservice.support.BasePage;
 import com.service.microservice.auth.common.exception.InvalidAuthenticationError;
 import com.service.microservice.auth.common.exception.InvalidError;
 import com.service.microservice.auth.common.exception.JwtAuthenticationError;
@@ -17,13 +16,14 @@ import com.service.microservice.auth.repository.AuthControlRepository;
 import com.service.microservice.auth.repository.AuthRepository;
 import com.service.microservice.auth.request.AccountRegister;
 import com.service.microservice.auth.request.LoginAccount;
+import com.service.microservice.auth.request.PageBaseRequest;
 import com.service.microservice.auth.response.AuthGenJwtResponse;
 import com.service.microservice.auth.response.AuthResponse;
 import com.service.microservice.auth.service.inter.AuthService;
+import com.service.microservice.support.BasePage;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -46,8 +46,8 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public BasePage<?> search(Integer pageNo, Integer pageSize) {
-        Pageable pageable = PageRequest.of(BasePage.getPageNo(pageNo), pageSize);
+    public BasePage<?> search(PageBaseRequest request) {
+        Pageable pageable = BasePage.getPageable(request);
         Page<AuthEntity> page = authRepository.findAll(pageable);
         List<AuthResponse> responses = page.getContent().stream()
                 .map(AuthResConverter::from)

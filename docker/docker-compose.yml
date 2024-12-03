@@ -68,14 +68,14 @@ services:
 #      - kafka_data:/var/lib/kafka/data
 #      - kafka_log:/var/lib/kafka/log
 
-#  redis:
-#    image: redis:latest
-#    container_name: redis
-#    command: redis-server /usr/local/etc/redis/redis.conf
-#    volumes:
-#      - redis.conf:/usr/local/etc/redis/redis.conf
-#    ports:
-#      - "16379:6379"
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "16379:6379"
 
   #  docker exec -it elasticsearch bin/elasticsearch-reset-password -u elastic reset password elasticsearch
 #  elasticsearch:

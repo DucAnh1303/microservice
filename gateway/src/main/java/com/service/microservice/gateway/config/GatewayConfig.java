@@ -22,7 +22,6 @@ public class GatewayConfig {
 
     private final AuthenticationFilter filter;
 
-
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
