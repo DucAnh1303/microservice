@@ -2,6 +2,7 @@ package com.service.microservice.gateway.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
@@ -32,13 +33,15 @@ public class GatewayConfig {
                 .build();
     }
 
+
+    // handle for request limit and time to live
     @Bean
     public RedisRateLimiter redisRateLimiter() {
         return new RedisRateLimiter(10, 15,20);
     }
 
     @Bean
-    public GlobalFilter customTooManyRequestsResponseFilter() {
+    public GatewayFilter customTooManyRequestsResponseFilter() {
         return (exchange, chain) -> chain.filter(exchange)
                 .onErrorResume(WebClientResponseException.TooManyRequests.class, ex -> {
                     ServerHttpResponse response = exchange.getResponse();
