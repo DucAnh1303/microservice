@@ -2,7 +2,6 @@ package com.service.microservice.auth.web;
 
 import com.service.microservice.auth.request.AccountRegister;
 import com.service.microservice.auth.request.LoginAccount;
-import com.service.microservice.auth.request.PageBaseRequest;
 import com.service.microservice.auth.service.inter.AuthService;
 import com.service.microservice.support.ApiResponseGenerator;
 import com.service.microservice.support.BaseResponse;
@@ -24,8 +23,9 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/search")
-    public BaseResponse<?> search(@RequestBody(required = false) PageBaseRequest request) {
-        return ApiResponseGenerator.success(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), authService.search(request));
+    public BaseResponse<?> search(@RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                  @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        return ApiResponseGenerator.success(HttpStatus.OK.value(), HttpStatus.OK.getReasonPhrase(), authService.search(pageNo, pageSize));
     }
 
     @PostMapping("/login")
